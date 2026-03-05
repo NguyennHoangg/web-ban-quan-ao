@@ -15,7 +15,28 @@
  */
 
 const { Pool } = require('pg');
+const { URL } = require('url');
 require('dotenv').config();
+
+/**
+ * Parse DATABASE_URL to individual components to force IPv4
+ */
+function parseConnectionString(connectionString) {
+    const url = new URL(connectionString);
+    return {
+        user: url.username,
+        password: url.password,
+        host: url.hostname,
+        port: parseInt(url.port) || 5432,
+        database: url.pathname.slice(1), // Remove leading '/'
+        ssl: { rejectUnauthorized: false },
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 2000,
+        family: 4  // Force IPv4
+    };
+}
 
 /**
  * PostgreSQL connection configuration
@@ -23,18 +44,7 @@ require('dotenv').config();
  * Supports both individual credentials and DATABASE_URL (for Supabase)
  */
 const config = process.env.DATABASE_URL 
-    ? {
-        connectionString: process.env.DATABASE_URL,
-        ssl: {
-            rejectUnauthorized: false
-        },
-        max: 10,
-        min: 0,
-        idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 2000,
-        // Force IPv4 to avoid ENETUNREACH error on Render
-        family: 4
-    }
+    ? parseConnectionString(process.env.DATABASE_URL)
     : {
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
