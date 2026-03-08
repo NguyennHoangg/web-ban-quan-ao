@@ -362,19 +362,17 @@ class UserService {
       }
 
       return {
-        user:{
-          id: result.id,
-          email: result.email,
-          full_name: result.full_name,
-          phone: result.phone,
-          avatar_url: result.avatar_url,
-          role: result.role,
-          tier: result.tier,
-          loyalty_points: result.loyalty_points,
-          total_spent: result.total_spent,
-          total_orders: result.total_orders,
-          created_at: result.created_at
-        }
+        id: result.id,
+        email: result.email,
+        full_name: result.full_name,
+        phone: result.phone,
+        avatar_url: result.avatar_url,
+        role: result.role,
+        tier: result.tier,
+        loyalty_points: result.loyalty_points,
+        total_spent: result.total_spent,
+        total_orders: result.total_orders,
+        created_at: result.created_at
       }
     } catch (error) {
       if(error.isOperational){

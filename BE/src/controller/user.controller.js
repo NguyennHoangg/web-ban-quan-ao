@@ -15,13 +15,11 @@ const UserController = {
             throw createError(VALIDATION_ERRORS.MISSING_REQUIRED_FIELD, 'Id là bắt buộc')
         }
 
-        const userProfile = await getProfile(id);
+        const user = await getProfile(id);
 
         return res.status(HTTP_STATUS.OK).json({
             success: true,
-            data:{
-                userProfile
-            }
+            data: {user}
         })
     }),
 
