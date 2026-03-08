@@ -3,7 +3,7 @@ const router = express.Router();
 
 // Import route modules
 const authRoutes = require('./auth.routes');
-
+const userRoutes = require('./user.routes');
 /**
  * Main Routes Index
  * Tập hợp tất cả routes của application
@@ -32,7 +32,7 @@ router.use('/auth', authRoutes);
 // TODO: Add more routes as needed
 // router.use('/products', productRoutes);
 // router.use('/orders', orderRoutes);
-// router.use('/users', userRoutes);
+router.use('/users', userRoutes);
 // router.use('/categories', categoryRoutes);
 // router.use('/cart', cartRoutes);
 // router.use('/vouchers', voucherRoutes);

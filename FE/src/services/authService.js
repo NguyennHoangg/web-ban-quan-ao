@@ -1,14 +1,14 @@
 const BASE_URL = 'http://localhost:3000/api';
 
 export const authService = {
-    login: async (email, password) => {
+    login: async (identifier, password) => {
         const response = await fetch(`${BASE_URL}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             credentials: 'include', // Nhận cookie refreshToken từ server
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ identifier, password }),
         });
 
         const data = await response.json();

@@ -1,7 +1,38 @@
 const { query, getClient } = require("../config/db");
 
+/**
+ * Whitelist của tables và fields được phép
+ * Chống SQL Injection bằng cách validate table/field names
+ */
+const ALLOWED_TABLES = {
+  'users': ['id', 'email'],
+  'accounts': ['id', 'identifier'],
+  'sessions': ['id', 'refresh_token'],
+  'products': ['id'],
+  'orders': ['id'],
+  'categories': ['id']
+};
+
+/**
+ * Validate table name và field name để chống SQL injection
+ * @param {string} tableName - Tên table
+ * @param {string} idField - Tên field
+ * @throws {Error} Nếu table/field không hợp lệ
+ */
+const validateTableAndField = (tableName, idField) => {
+  if (!ALLOWED_TABLES[tableName]) {
+    throw new Error(`Invalid table name: ${tableName}`);
+  }
+  if (!ALLOWED_TABLES[tableName].includes(idField)) {
+    throw new Error(`Invalid field name: ${idField} for table: ${tableName}`);
+  }
+};
+
 const checkIdExists = async (tableName, idField, idValue) => {
   try {
+    //  Validate để chống SQL injection
+    validateTableAndField(tableName, idField);
+    
     const result = await query(
       `SELECT 1 FROM ${tableName} WHERE ${idField} = $1 LIMIT 1`,
       [idValue],
@@ -31,6 +62,17 @@ const checkIdExists = async (tableName, idField, idValue) => {
  */
 async function generateUniqueId(tableName, idField, prefix, length = 3) {
   try {
+    //  Validate để chống SQL injection
+    validateTableAndField(tableName, idField);
+    
+    // Validate prefix và length để tránh injection
+    if (typeof prefix !== 'string' || prefix.length === 0 || prefix.length > 10) {
+      throw new Error('Invalid prefix');
+    }
+    if (typeof length !== 'number' || length < 1 || length > 20) {
+      throw new Error('Invalid length');
+    }
+    
     // Find the current maximum numeric value with the given prefix
     const result = await query(
       `SELECT MAX(

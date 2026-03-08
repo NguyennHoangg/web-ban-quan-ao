@@ -1,9 +1,10 @@
 /**
  * DATABASE CONNECTION CONFIGURATION
  * 
- * Simple PostgreSQL connection for Render + Supabase
- * Uses connection string from DATABASE_URL environment variable
- * +
+ * PostgreSQL connection for local development and production
+ * Uses environment variables for database connection
+ * Supports both local (no SSL) and remote (SSL) connections
+ * 
  * @requires pg - PostgreSQL driver for Node.js
  * @requires dotenv - Environment variables management
  */
@@ -13,7 +14,7 @@ require('dotenv').config();
 
 /**
  * PostgreSQL connection pool configuration
- * Optimized for Supabase connection from Render
+ * Optimized for local PostgreSQL connection
  */
 const pool = new Pool({
     // Force IPv4 to avoid ENETUNREACH errors
@@ -22,7 +23,7 @@ const pool = new Pool({
     database: process.env.DB_NAME,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    ssl: {
+    ssl: process.env.DB_HOST === 'localhost' ? false : {
         rejectUnauthorized: false
     },
     // Additional configuration
