@@ -1,4 +1,4 @@
-const { createUser: createUserInDB } = require("../model/user.model");
+const { createUser: createUserInDB, findUserById } = require("../model/user.model");
 const {
   createAccount,
   findAccountByIdentifier,
@@ -10,7 +10,7 @@ const {
   deactivateSession,
   deactivateAllUserSessions,
   getUserActiveSessions,
-  deactivateSessionById
+  deactivateSessionById,
 } = require("../model/session.model");
 const { generateUniqueId } = require("../utils/generateId");
 const bcrypt = require("bcrypt");
@@ -18,11 +18,17 @@ const {
   AUTH_ERRORS,
   createError,
   USER_ERRORS,
-  DB_ERRORS,  // ← Thêm dòng này
+  DB_ERRORS,
+  VALIDATION_ERRORS,
 } = require("../constants");
 const { createValidationError } = require("../constants/errors");
-const jwt = require('jsonwebtoken');
-const { jwtSecret, jwtExpire, jwtRefresh, jwtfreshExpire   } = require("../config/jwt");
+const jwt = require("jsonwebtoken");
+const {
+  jwtSecret,
+  jwtExpire,
+  jwtRefresh,
+  jwtfreshExpire,
+} = require("../config/jwt");
 
 class UserService {
   /**
@@ -89,12 +95,12 @@ class UserService {
     }
   }
 
-  async login(email, password, deviceInfo = {}) {
+  async login(identifier, password, deviceInfo = {}) {
     try {
-      if (!email || !password) {
+      if (!identifier || !password) {
         const errs = [];
-        if (!email) {
-          errs.push({ field: "email", message: "Email là bắt buộc" });
+        if (!identifier) {
+          errs.push({ field: "identifier", message: "Email hoặc số điện thoại là bắt buộc" });
         }
         if (!password) {
           errs.push({ field: "password", message: "Mật khẩu là bắt buộc" });
@@ -103,7 +109,7 @@ class UserService {
       }
 
       // 1. Tìm account + user (1 query với JOIN)
-      const result = await findAccountByIdentifier(email);
+      const result = await findAccountByIdentifier(identifier);
 
       // 2. Kiểm tra tồn tại
       if (!result) {
@@ -136,10 +142,10 @@ class UserService {
         accountId: result.id,
         sessionToken: accessToken,
         refreshToken: refreshToken,
-        deviceType: deviceInfo.deviceType || 'unknown',
+        deviceType: deviceInfo.deviceType || "unknown",
         ipAddress: deviceInfo.ipAddress || null,
         userAgent: deviceInfo.userAgent || null,
-        expiresAt: expiresAt
+        expiresAt: expiresAt,
       });
 
       // 7. Return user info + tokens
@@ -152,97 +158,100 @@ class UserService {
           role: result.role,
           avatarUrl: result.avatar_url,
           tier: result.tier,
-          loyaltyPoints: result.loyalty_points
+          loyaltyPoints: result.loyalty_points,
         },
         tokens: {
           accessToken,
-          refreshToken
-        }
+          refreshToken,
+        },
       };
     } catch (error) {
       if (error.isOperational) {
         throw error;
       }
       // Nếu là lỗi khác (DB, system...) thì wrap
-      throw createError(DB_ERRORS.QUERY_FAILED, "Chi tiết lỗi");
+      console.error('Login service error:', error);
+      throw createError(DB_ERRORS.QUERY_FAILED, error.message || "Lỗi đăng nhập");
     }
   }
 
-  async generateAccessToken(accountWithUser){
-      const payload = {
-        accountId: accountWithUser.id,
-        userId: accountWithUser.user_id,
-        role: accountWithUser.role,
-        email: accountWithUser.email
-      }
+  async generateAccessToken(accountWithUser) {
+    const payload = {
+      accountId: accountWithUser.id,
+      userId: accountWithUser.user_id,
+      role: accountWithUser.role,
+      email: accountWithUser.email,
+    };
 
-      const token = jwt.sign(payload, jwtSecret, {
-          expiresIn: jwtExpire
-      })
+    const token = jwt.sign(payload, jwtSecret, {
+      expiresIn: jwtExpire,
+    });
 
-      return token;
-  };
-
-  async generateRefreshToken(accountWithUser){
-      return jwt.sign(
-        {
-          accountId: accountWithUser.id,
-          userId: accountWithUser.user_id
-        }, jwtRefresh,
-        {
-          expiresIn: jwtfreshExpire
-        })
+    return token;
   }
 
-  async refreshAccessToken(refreshToken){
-      try {
-        if(!refreshToken){
-          throw createError(AUTH_ERRORS.REFRESH_TOKEN_INVALID);
-        }
+  async generateRefreshToken(accountWithUser) {
+    return jwt.sign(
+      {
+        accountId: accountWithUser.id,
+        userId: accountWithUser.user_id,
+      },
+      jwtRefresh,
+      {
+        expiresIn: jwtfreshExpire,
+      },
+    );
+  }
 
-        // 1. Verify JWT refresh token
-        let decoded;
-        try {
-          decoded = jwt.verify(refreshToken, jwtRefresh);
-        } catch (error) {
-          throw createError(AUTH_ERRORS.REFRESH_TOKEN_INVALID);
-        }
-
-        // 2. Kiểm tra session trong database
-        const session = await findSessionByRefreshToken(refreshToken);
-        
-        if (!session) {
-          throw createError(AUTH_ERRORS.REFRESH_TOKEN_INVALID);
-        }
-
-        // 3. Kiểm tra user còn active không
-        if (!session.user_is_active) {
-          throw createError(AUTH_ERRORS.AUTH_ACCOUNT_LOCKED);
-        }
-
-        // 4. Tạo access token mới
-        const newAccessToken = await this.generateAccessToken({
-          id: session.account_id,
-          user_id: session.user_id,
-          role: session.role,
-          email: session.email
-        });
-
-        // 5. Cập nhật session token trong DB
-        await updateSessionToken(refreshToken, newAccessToken);
-
-        // 6. Return tokens mới
-        return {
-          accessToken: newAccessToken,
-          refreshToken: refreshToken // Giữ nguyên refresh token
-        };
-      } catch (error) {
-        if (error.isOperational) {
-          throw error;
-        }
-        console.error('Error refreshing token:', error);
+  async refreshAccessToken(refreshToken) {
+    try {
+      if (!refreshToken) {
         throw createError(AUTH_ERRORS.REFRESH_TOKEN_INVALID);
       }
+
+      // 1. Verify JWT refresh token
+      let decoded;
+      try {
+        decoded = jwt.verify(refreshToken, jwtRefresh);
+      } catch (error) {
+        throw createError(AUTH_ERRORS.REFRESH_TOKEN_INVALID);
+      }
+
+      // 2. Kiểm tra session trong database
+      const session = await findSessionByRefreshToken(refreshToken);
+
+      if (!session) {
+        throw createError(AUTH_ERRORS.REFRESH_TOKEN_INVALID);
+      }
+
+      // 3. Kiểm tra user còn active không
+      if (!session.user_is_active) {
+        throw createError(AUTH_ERRORS.AUTH_ACCOUNT_LOCKED);
+      }
+
+      // 4. Tạo access token mới
+      const newAccessToken = await this.generateAccessToken({
+        id: session.account_id,
+        user_id: session.user_id,
+        role: session.role,
+        email: session.email,
+      });
+
+      // 5. Cập nhật session token trong DB
+      await updateSessionToken(refreshToken, newAccessToken);
+
+      // 6. Return tokens mới
+      return {
+        accessToken: newAccessToken,
+        refreshToken: refreshToken, // Giữ nguyên refresh token
+      };
+    } catch (error) {
+      if (error.isOperational) {
+        throw error;
+      }
+      console.error("Error refreshing token:", error);
+      throw createError(AUTH_ERRORS.REFRESH_TOKEN_INVALID);
+    }
   }
 
   /**
@@ -260,7 +269,7 @@ class UserService {
       const deactivated = await deactivateSession(refreshToken);
       return deactivated;
     } catch (error) {
-      console.error('Error during logout:', error);
+      console.error("Error during logout:", error);
       throw error;
     }
   }
@@ -279,7 +288,7 @@ class UserService {
       const count = await deactivateAllUserSessions(userId);
       return count;
     } catch (error) {
-      console.error('Error during logout all devices:', error);
+      console.error("Error during logout all devices:", error);
       throw error;
     }
   }
@@ -299,17 +308,18 @@ class UserService {
       const sessions = await getUserActiveSessions(userId);
 
       // Đánh dấu session hiện tại
-      return sessions.map(session => ({
+      return sessions.map((session) => ({
         id: session.id,
         deviceType: session.device_type,
         ipAddress: session.ip_address,
         createdAt: session.created_at,
         lastActivity: session.last_activity_at,
         expiresAt: session.expires_at,
-        isCurrent: currentRefreshToken && session.refresh_token === currentRefreshToken
+        isCurrent:
+          currentRefreshToken && session.refresh_token === currentRefreshToken,
       }));
     } catch (error) {
-      console.error('Error getting user sessions:', error);
+      console.error("Error getting user sessions:", error);
       throw error;
     }
   }
@@ -330,18 +340,46 @@ class UserService {
       const deactivated = await deactivateSessionById(sessionId, userId);
       return deactivated;
     } catch (error) {
-      console.error('Error logging out session:', error);
+      console.error("Error logging out session:", error);
       throw error;
     }
   }
 
   /**
    * Update profile người dùng
-   * @param 
+   * @param
    */
 
-  async updateProfile(userProfile ){
-    
+  async getProfile(userId) {
+    try {
+      if (!userId) {
+        throw createError(VALIDATION_ERRORS.MISSING_REQUIRED_FIELD);
+      }
+
+      const result = await findUserById(userId);
+      if(!result){
+        throw createError(USER_ERRORS.USER_NOT_FOUND);
+      }
+
+      return {
+        id: result.id,
+        email: result.email,
+        full_name: result.full_name,
+        phone: result.phone,
+        avatar_url: result.avatar_url,
+        role: result.role,
+        tier: result.tier,
+        loyalty_points: result.loyalty_points,
+        total_spent: result.total_spent,
+        total_orders: result.total_orders,
+        created_at: result.created_at
+      }
+    } catch (error) {
+      if(error.isOperational){
+        throw error;
+      }
+      throw createError(DB_ERRORS);
+    }
   }
 }
 

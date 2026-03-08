@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const AuthController = require('../controller/auth.controller');
 const { authenticate } = require('../middlewares/authMiddleware');
+const { 
+  registerValidation, 
+  loginValidation, 
+  refreshTokenValidation 
+} = require('../middlewares/validators/auth.validator');
 
 /**
  * Authentication Routes
@@ -14,7 +19,7 @@ const { authenticate } = require('../middlewares/authMiddleware');
  * @access  Public
  * @body    { email, password, fullName, phone, role? }
  */
-router.post('/register', AuthController.register);
+router.post('/register', registerValidation, AuthController.register);
 
 /**
  * @route   POST /api/auth/login
@@ -24,7 +29,7 @@ router.post('/register', AuthController.register);
  * @cookie  refreshToken (HTTP-only, 7 days)
  * @return  { user, token: { accessToken } }
  */
-router.post('/login', AuthController.login);
+router.post('/login', loginValidation, AuthController.login);
 
 /**
  * @route   POST /api/auth/refresh
@@ -33,7 +38,7 @@ router.post('/login', AuthController.login);
  * @cookie  refreshToken
  * @return  { accessToken }
  */
-router.post('/refresh', AuthController.refreshToken);
+router.post('/refresh', refreshTokenValidation, AuthController.refreshToken);
 
 /**
  * @route   POST /api/auth/logout
