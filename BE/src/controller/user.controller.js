@@ -5,7 +5,7 @@ const {AUTH_ERRORS,
         USER_ERRORS,
         VALIDATION_ERRORS
 } = require('../constants');
-const { getProfile } = require('../services/user.service');
+const { getProfile, updateProfile } = require('../services/user.service');
 
 
 const UserController = {
@@ -23,9 +23,28 @@ const UserController = {
         })
     }),
 
-    updateProfile: async(req, res) =>{
+    updateProfile: asyncHandler(async(req, res) =>{
+        const {id, full_name, date_of_birth, gender, email, phone } = req.body;
+        if(!id){
+            throw createError(VALIDATION_ERRORS.MISSING_REQUIRED_FIELD, 'Id là bắt buộc');
+        }
 
-    },
+        // Truyền object vào service - tối ưu khi có nhiều tham số
+        const user = await updateProfile({
+            id,
+            full_name,
+            date_of_birth,
+            gender,
+            email,
+            phone
+        });
+
+        return res.status(HTTP_STATUS.OK).json({
+            success: true,
+            message: 'Cập nhật thông tin thành công',
+            data: { user }
+        });
+    }),
 
     forgotPassword: async(req, res) =>{
 

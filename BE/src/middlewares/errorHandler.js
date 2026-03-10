@@ -4,7 +4,7 @@
  */
 
 const { AppError, formatErrorResponse } = require('../constants/errors');
-const { HTTP_STATUS } = require('../constants/httpStatus');
+const HTTP_STATUS = require('../constants/httpStatus');
 
 /**
  * Generate unique request ID

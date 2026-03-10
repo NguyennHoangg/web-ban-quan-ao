@@ -1,10 +1,10 @@
-# 🔐 Authentication API Guide
+#  Authentication API Guide
 
 Quick guide để test các endpoints authentication và session management.
 
 ---
 
-## 📋 Danh sách Endpoints
+##  Danh sách Endpoints
 
 ### Public Routes (không cần authentication)
 - `POST /api/auth/register` - Đăng ký
@@ -18,8 +18,7 @@ Quick guide để test các endpoints authentication và session management.
 - `DELETE /api/auth/sessions/:sessionId` - Đăng xuất một thiết bị
 
 ---
-
-## 🚀 Test Flow
+##  Test Flow
 
 ### 1. Đăng ký tài khoản mới
 
@@ -101,7 +100,7 @@ Device-Type: desktop
 Set-Cookie: refreshToken=eyJhbGc...; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=604800
 ```
 
-**💾 Lưu accessToken để dùng cho các requests sau:**
+** Lưu accessToken để dùng cho các requests sau:**
 ```javascript
 const accessToken = response.token.accessToken;
 ```
@@ -146,7 +145,7 @@ Cookie: refreshToken=eyJhbGc...
 }
 ```
 
-**💾 Update accessToken mới:**
+** Update accessToken mới:**
 ```javascript
 const newAccessToken = response.data.accessToken;
 ```
@@ -229,7 +228,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 }
 ```
 
-**⚠️ Lưu ý:** Sau khi logout-all, TẤT CẢ thiết bị phải đăng nhập lại.
+** Lưu ý:** Sau khi logout-all, TẤT CẢ thiết bị phải đăng nhập lại.
 
 ---
 
@@ -255,7 +254,7 @@ Set-Cookie: refreshToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT
 
 ---
 
-## 🧪 Test với Postman/Thunder Client
+##  Test với Postman/Thunder Client
 
 ### Setup Environment Variables
 
@@ -267,16 +266,16 @@ access_token = (sẽ được update sau mỗi login/refresh)
 ### Collection Structure
 
 ```
-📁 Authentication
-  ├── 📄 1. Register
-  ├── 📄 2. Login (save accessToken to environment)
-  ├── 📄 3. Refresh Token
-  └── 📄 4. Logout
+ Authentication
+  ├──  1. Register
+  ├──  2. Login (save accessToken to environment)
+  ├──  3. Refresh Token
+  └──  4. Logout
 
-📁 Session Management
-  ├── 📄 1. Get Sessions
-  ├── 📄 2. Logout from Device
-  └── 📄 3. Logout All Devices
+ Session Management
+  ├──  1. Get Sessions
+  ├──  2. Logout from Device
+  └──  3. Logout All Devices
 ```
 
 ### Script tự động lưu token (Postman)
@@ -299,7 +298,7 @@ pm.request.headers.add({
 
 ---
 
-## 🔍 Debugging Tips
+##  Debugging Tips
 
 ### Kiểm tra JWT Token
 Paste access token vào [jwt.io](https://jwt.io) để xem payload:
@@ -341,7 +340,7 @@ ORDER BY s.created_at DESC;
 
 ---
 
-## ⚠️ Common Errors
+##  Common Errors
 
 ### 1. "Access denied. No token provided."
 - **Lý do:** Không có access token trong header
@@ -365,7 +364,7 @@ ORDER BY s.created_at DESC;
 
 ---
 
-## 🔐 Security Notes
+##  Security Notes
 
 1. **Access Token**: 
    - Lưu trong memory hoặc localStorage
@@ -391,7 +390,7 @@ ORDER BY s.created_at DESC;
 
 ---
 
-## 📱 Test Multiple Devices
+##  Test Multiple Devices
 
 ### Scenario: Login từ 2 thiết bị khác nhau
 
