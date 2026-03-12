@@ -1,14 +1,15 @@
-const authServices = require("../services/user.service");
+/**
+ * Authentication Controller
+ * @description Xử lý đăng ký, đăng nhập, và các tác vụ xác thực
+ */
+
+const authServices = require("../services/auth.service");
 const { HTTP_STATUS } = require('../constants');
 const { 
   createError, 
   createValidationError,
   AUTH_ERRORS 
 } = require('../constants/errors');
-/**
- * Authentication Controller
- * Xử lý đăng ký, đăng nhập, và các tác vụ xác thực
- */
 const AuthController = {
   /**
    * Đăng nhập

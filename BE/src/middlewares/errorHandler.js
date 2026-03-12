@@ -1,6 +1,6 @@
 /**
  * Global Error Handler Middleware
- * Xử lý tất cả errors và format response theo chuẩn API
+ * @description Xử lý tất cả errors và format response theo chuẩn API
  */
 
 const { AppError, formatErrorResponse } = require('../constants/errors');

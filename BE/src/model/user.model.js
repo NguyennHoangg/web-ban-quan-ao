@@ -1,3 +1,8 @@
+/**
+ * User Model
+ * @description Quản lý dữ liệu và thao tác với bảng users
+ */
+
 const { query, getClient } = require("../config/db");
 const { createError } = require("../constants");
 
@@ -26,19 +31,15 @@ const createUser = async (userData) => {
     throw new Error("Missing required fields: id, email, fullName, phone");
   }
 
-  const client = await getClient();
-
   try {
-    await client.query("BEGIN");
-
     // Insert user query (profile data only)
     const insertQuery = `
-            INSERT INTO users (id, email, phone, full_name, role, created_at, updated_at)
-            VALUES ($1, $2, $3, $4, $5, NOW(), NOW())
-            RETURNING id, email, full_name, phone, role, created_at
-        `;
+      INSERT INTO users (id, email, phone, full_name, role, created_at, updated_at)
+      VALUES ($1, $2, $3, $4, $5, NOW(), NOW())
+      RETURNING id, email, full_name, phone, role, created_at
+    `;
 
-    const result = await client.query(insertQuery, [
+    const result = await query(insertQuery, [
       id,
       email,
       phone,
@@ -46,15 +47,10 @@ const createUser = async (userData) => {
       role,
     ]);
 
-    await client.query("COMMIT");
-
     return result.rows[0];
   } catch (error) {
-    await client.query("ROLLBACK");
     console.error("Error creating user:", error);
     throw error;
-  } finally {
-    client.release();
   }
 };
 
@@ -137,9 +133,10 @@ const updateUserProfile = async (userData) => {
   }
 };
 
+
 module.exports = {
   createUser,
   findUserByEmail,
   findUserById,
-  updateUserProfile,
+  updateUserProfile
 };

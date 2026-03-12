@@ -1,3 +1,8 @@
+/**
+ * Account Model
+ * @description Quản lý dữ liệu và thao tác với bảng accounts (authentication)
+ */
+
 const { query, getClient } = require('../config/db');
 
 /**
@@ -18,11 +23,7 @@ const createAccount = async (accountData) => {
         throw new Error('Missing required fields: id, userId, accountType, identifier, passwordHash');
     }
 
-    const client = await getClient();
-
     try {
-        await client.query('BEGIN');
-        
         // Insert account query
         const insertQuery = `
             INSERT INTO accounts (
@@ -33,19 +34,14 @@ const createAccount = async (accountData) => {
             RETURNING id, user_id, account_type, identifier, is_verified, created_at
         `;
         
-        const result = await client.query(insertQuery, [
+        const result = await query(insertQuery, [
             id, userId, accountType, identifier, passwordHash
         ]);
         
-        await client.query('COMMIT');
-        
         return result.rows[0];
     } catch (error) {
-        await client.query('ROLLBACK');
         console.error('Error creating account:', error);
         throw error;
-    } finally {
-        client.release();
     }
 };
 
@@ -111,14 +107,14 @@ const findAccountsByUserId = async (userId) => {
  * @param {string} newPasswordHash - New hashed password
  * @returns {Promise<Object>} Updated account
  */
-const updateAccountPassword = async (accountId, newPasswordHash) => {
+const updateAccountPassword = async (accountId, new_password_hash) => {
     try {
         const result = await query(
             `UPDATE accounts 
              SET password_hash = $1, updated_at = NOW() 
              WHERE id = $2 
              RETURNING id, user_id, account_type, identifier, updated_at`,
-            [newPasswordHash, accountId]
+            [new_password_hash, accountId]
         );
         
         return result.rows[0];

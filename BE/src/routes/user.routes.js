@@ -1,3 +1,8 @@
+/**
+ * User Routes
+ * @description Định nghĩa các routes cho user profile management
+ */
+
 const express = require('express');
 const router = express.Router();
 const { authenticate } = require('../middlewares/authMiddleware');

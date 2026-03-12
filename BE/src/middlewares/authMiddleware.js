@@ -1,3 +1,8 @@
+/**
+ * Authentication Middleware
+ * @description Middleware xác thực JWT Token từ Cookie hoặc Authorization header
+ */
+
 const jwt = require("jsonwebtoken");
 const { jwtSecret } = require("../config/jwt");
 const { findUserById } = require("../model/user.model");

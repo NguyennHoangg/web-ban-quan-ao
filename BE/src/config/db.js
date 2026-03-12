@@ -1,12 +1,8 @@
 /**
- * DATABASE CONNECTION CONFIGURATION
- * 
- * PostgreSQL connection for local development and production
+ * Database Configuration
+ * @description PostgreSQL connection for local development and production
  * Uses environment variables for database connection
  * Supports both local (no SSL) and remote (SSL) connections
- * 
- * @requires pg - PostgreSQL driver for Node.js
- * @requires dotenv - Environment variables management
  */
 
 const { Pool } = require('pg');
