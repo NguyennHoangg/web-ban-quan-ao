@@ -7,6 +7,7 @@ import AboutUsPage from './pages/aboutUs/AboutUsPage.jsx';
 import CartPage from './pages/cartPage/CartPage.jsx';
 import LoginPage from './pages/loginPage/LoginPage.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
+import DetailProductPage from './pages/detailProductPage/DetailProductPage.jsx';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
           <Route path="/about-us" element={<AboutUsPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/products/test" element={<DetailProductPage />} />
+
         </Routes>
       </AuthProvider>
     </Router>
