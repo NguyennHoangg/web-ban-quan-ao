@@ -10,6 +10,7 @@ const router = express.Router();
 const authRoutes = require('./auth.routes');
 const userRoutes = require('./user.routes');
 const accountRoutes = require('./account.routes');
+const productRoutes = require('./product.routes');
 /**
  * Tập hợp tất cả routes của application
  * Base path: /api
@@ -38,7 +39,7 @@ router.use('/account', accountRoutes);
 router.use('/users', userRoutes);
 
 // TODO: Add more routes as needed
-// router.use('/products', productRoutes);
+router.use('/products', productRoutes);
 // router.use('/orders', orderRoutes);
 // router.use('/categories', categoryRoutes);
 // router.use('/cart', cartRoutes);
