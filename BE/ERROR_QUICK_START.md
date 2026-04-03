@@ -1,25 +1,25 @@
 # Quick Start - Sử dụng Error Handling
 
-## 1️⃣ Cấu trúc đã setup
+## 1️, Cấu trúc đã setup
 
 ```
 BE/
 ├── src/
 │   ├── constants/
-│   │   ├── errors.js                    ✅ Tất cả error definitions
+│   │   ├── errors.js                     Tất cả error definitions
 │   │   ├── ERRORS_USAGE_GUIDE.md        📖 Hướng dẫn chi tiết
 │   │   └── httpStatus.js
 │   ├── middlewares/
-│   │   ├── errorHandler.js              ✅ Global error handler
+│   │   ├── errorHandler.js               Global error handler
 │   │   └── authMiddleware.js
 │   └── controller/
-│       └── auth.controller.js           ✅ Đã cập nhật với examples
-└── server.js                            ✅ Đã tích hợp error handlers
+│       └── auth.controller.js            Đã cập nhật với examples
+└── server.js                             Đã tích hợp error handlers
 ```
 
 ---
 
-## 2️⃣ Basic Usage
+## 2️, Basic Usage
 
 ### Trong Controller
 ```javascript
@@ -53,7 +53,7 @@ if (!email) {
 
 ---
 
-## 3️⃣ Available Error Types
+## 3️, Available Error Types
 
 ```javascript
 const {
@@ -71,7 +71,7 @@ const {
 
 ---
 
-## 4️⃣ Example Errors
+## 4️, Example Errors
 
 ```javascript
 // Authentication
@@ -94,7 +94,7 @@ VOUCHER_ERRORS.VOUCHER_NOT_FOUND
 
 ---
 
-## 5️⃣ Response Format
+## 5 Response Format
 
 ### Success Response
 ```json
@@ -141,7 +141,7 @@ VOUCHER_ERRORS.VOUCHER_NOT_FOUND
 
 ---
 
-## 6️⃣ Testing
+## 6️, Testing
 
 ### Test với Postman/Thunder Client
 
@@ -169,17 +169,17 @@ POST http://localhost:3000/api/auth/register
 
 ---
 
-## 7️⃣ Next Steps
+## 7️, Next Steps
 
-1. ✅ **Setup Complete** - Error system đã sẵn sàng
-2. 📝 Implement các service methods (UserService.login, etc.)
-3. 🔐 Setup JWT authentication
-4. 🗄️ Connect database
-5. 📊 Xem file [ERRORS_USAGE_GUIDE.md](./src/constants/ERRORS_USAGE_GUIDE.md) để biết thêm chi tiết
+1.  **Setup Complete** - Error system đã sẵn sàng
+2.  Implement các service methods (UserService.login, etc.)
+3.  Setup JWT authentication
+4.  Connect database
+5.  Xem file [ERRORS_USAGE_GUIDE.md](./src/constants/ERRORS_USAGE_GUIDE.md) để biết thêm chi tiết
 
 ---
 
-## 🚀 Chạy Server
+##  Chạy Server
 
 ```bash
 # Install dependencies
@@ -194,7 +194,7 @@ curl http://localhost:3000
 
 ---
 
-## 📖 Documentation
+##  Documentation
 
 - **Chi tiết**: Xem [ERRORS_USAGE_GUIDE.md](./src/constants/ERRORS_USAGE_GUIDE.md)
 - **API Spec**: Xem [API_Specification.md](./API_Specification.md)
@@ -203,9 +203,9 @@ curl http://localhost:3000
 
 ## Tips
 
-✅ **Luôn sử dụng** `createError()` thay vì tự tạo error  
-✅ **Luôn pass error** vào `next(error)` trong controller  
-✅ **Luôn wrap** async functions trong try/catch  
-✅ **Validation**: Dùng `createValidationError()` cho field errors  
-❌ **Không return** error response trực tiếp từ controller  
-❌ **Không hardcode** status codes hay error messages  
+ **Luôn sử dụng** `createError()` thay vì tự tạo error  
+ **Luôn pass error** vào `next(error)` trong controller  
+ **Luôn wrap** async functions trong try/catch  
+ **Validation**: Dùng `createValidationError()` cho field errors  
+ **Không return** error response trực tiếp từ controller  
+ **Không hardcode** status codes hay error messages  

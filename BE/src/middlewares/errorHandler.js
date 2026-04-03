@@ -1,10 +1,10 @@
 /**
  * Global Error Handler Middleware
- * Xử lý tất cả errors và format response theo chuẩn API
+ * @description Xử lý tất cả errors và format response theo chuẩn API
  */
 
 const { AppError, formatErrorResponse } = require('../constants/errors');
-const { HTTP_STATUS } = require('../constants/httpStatus');
+const HTTP_STATUS = require('../constants/httpStatus');
 
 /**
  * Generate unique request ID
