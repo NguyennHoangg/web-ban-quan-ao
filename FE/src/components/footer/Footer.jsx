@@ -1,0 +1,66 @@
+import styles from './Footer.module.css';
+import logo from '../../../public/logo-KHK.webp';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faYoutube,
+    faDiscord,
+    faInstagram,
+} from '@fortawesome/free-brands-svg-icons';
+
+export default function Footer() {
+    return (
+        <>
+            <footer className={styles.footer}>
+                <div className={styles.footerContent}>
+                    <div className={styles.brand}><img src={logo} style={{ height: '100px', width: 'auto' }} alt="KHK Fashion Logo" />
+                        <p>Cửa hàng thời trang KHK chuyên cung cấp các sản phẩm thời trang chất lượng cao với thiết kế hiện đại. </p>
+                    </div>
+                    <div className={styles.info}>
+                        <div className={styles.columnInfo}><h2>Link</h2>
+                            <ul>
+                                <li><a href="/">Home</a></li>
+                                <li><a href="/products">Products</a></li>
+                                <li><a href="/about-us">About Us</a></li>
+                            </ul>
+                        </div>
+                        <div className={styles.columnInfo}><h2>Our team</h2>
+                            <ul>
+                                <li>
+                                    <a href="https://github.com/MinhKiet05" target="_blank" rel="noopener noreferrer">
+                                        Trần Huỳnh Minh Kiệt
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/NguyennHoangg" target="_blank" rel="noopener noreferrer">
+                                        Nguyễn Huy Hoàng
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/dinhtankhiem" target="_blank" rel="noopener noreferrer">
+                                        Đinh Tấn Khiêm
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div className={styles.columnInfo}><h2>Contact</h2>
+                            <ul>
+                                <li><a href="tel:0123456789">0987654321</a></li>
+                                <li><a href="mailto:info@khkfashion.com">info@khkfashion.com</a></li>
+                                <li>
+                                    <FontAwesomeIcon icon={faYoutube} size="2x" />
+                                    <FontAwesomeIcon icon={faDiscord} size="2x" />
+                                    <FontAwesomeIcon icon={faInstagram} size="2x" />
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </footer>
+            <div className={styles.copyright}>
+                <p>&copy; 2023 KHK Fashion. All rights reserved.</p>
+            </div>
+        </>
+
+    )
+}
