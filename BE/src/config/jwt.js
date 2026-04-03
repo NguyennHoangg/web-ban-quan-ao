@@ -1,3 +1,8 @@
+/**
+ * JWT Configuration
+ * @description Cấu hình JWT secret keys và expiration times
+ */
+
 require('dotenv').config();
 
 module.exports = {

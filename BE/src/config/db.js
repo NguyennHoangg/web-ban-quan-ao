@@ -1,70 +1,55 @@
 /**
- * DATABASE CONNECTION CONFIGURATION
- * 
- * This module handles PostgreSQL database connection using pg package.
- * Implements connection pooling for optimal performance and resource management.
- * 
- * Features:
- * - Connection pooling with configurable min/max connections
- * - Auto-reconnection handling
- * - Environment-based configuration
- * - SSL settings for production readiness
- * 
- * @requires pg - PostgreSQL driver for Node.js
- * @requires dotenv - Environment variables management
+ * Database Configuration
+ * @description PostgreSQL connection for local development and production
+ * Uses environment variables for database connection
+ * Supports both local (no SSL) and remote (SSL) connections
  */
 
 const { Pool } = require('pg');
 require('dotenv').config();
 
 /**
- * PostgreSQL connection configuration
- * Uses environment variables for security and flexibility
+ * PostgreSQL connection pool configuration
+ * Optimized for local PostgreSQL connection
  */
-const config = {
+const pool = new Pool({
+    // Force IPv4 to avoid ENETUNREACH errors
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    database: process.env.DB_NAME,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    port: parseInt(process.env.DB_PORT, 10) || 5432,
-    max: 10, // Maximum number of connections in pool
-    min: 0, // Minimum number of connections in pool
-    idleTimeoutMillis: 30000, // Connection timeout in milliseconds
-    connectionTimeoutMillis: 2000, // Connection attempt timeout
-    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : false
-};
+    ssl: process.env.DB_HOST === 'localhost' ? false : {
+        rejectUnauthorized: false
+    },
+    // Additional configuration
+    max: 20,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
+    keepAlive: true,
+    keepAliveInitialDelayMillis: 10000
+});
 
-// Global connection pool instance
-let pool = null;
+// Handle pool errors
+pool.on('error', (err) => {
+    console.error(' Unexpected database error:', err);
+});
 
-/**
+// Test connection on startup
+pool.connect()
+    .then(client => {
+        console.log(' Database connected successfully');
+        client.release();
+    })
+    .catch(err => {
+        console.error(' Database connection failed:', err.message);
+    });
+
+/*+*
  * Get database connection pool
- * Creates new pool if not exists, returns existing pool otherwise
- * 
  * @returns {Pool} PostgreSQL connection pool
- * @throws {Error} If connection fails
  */
-const getPool = () => {
-    if (!pool) {
-        pool = new Pool(config);
-        
-        // Handle connection errors
-        pool.on('error', (err) => {
-            console.error('Unexpected error on idle PostgreSQL client:', err);
-        });
-        
-        // Test connection
-        pool.connect((err, client, release) => {
-            if (err) {
-                console.error('Database connection failed:', err);
-            } else {
-                console.log('Database connection pool established successfully');
-                release();
-            }
-        });
-    }
-    return pool;
-};
+const getPool = () => pool;
 
 /**
  * Query helper function
@@ -75,13 +60,11 @@ const getPool = () => {
  * @returns {Promise<Object>} Query result
  */
 const query = async (text, params) => {
-    const start = Date.now();
     try {
-        const result = await getPool().query(text, params);
-        const duration = Date.now() - start;
+        const result = await pool.query(text, params);
         return result;
     } catch (err) {
-        console.error('Query error:', err);
+        console.error(' Query error:', err);
         throw err;
     }
 };
@@ -93,11 +76,8 @@ const query = async (text, params) => {
  * @returns {Promise<PoolClient>} PostgreSQL client
  */
 const getClient = async () => {
-    return await getPool().connect();
+    return await pool.connect();
 };
-
-// Initialize connection pool on module load
-getPool();
 
 module.exports = {
     getPool,

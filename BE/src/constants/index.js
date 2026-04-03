@@ -3,7 +3,7 @@
  * Central export for all constants
  */
 
-const { AppError, AUTH_ERRORS, USER_ERRORS, DB_ERRORS, createError } = require('./errors');
+const { AppError, AUTH_ERRORS, USER_ERRORS, DB_ERRORS, createError, VALIDATION_ERRORS } = require('./errors');
 const HTTP_STATUS = require('./httpStatus');
 
 module.exports = {
@@ -12,5 +12,6 @@ module.exports = {
   USER_ERRORS,
   DB_ERRORS,
   createError,
-  HTTP_STATUS
+  HTTP_STATUS,
+  VALIDATION_ERRORS
 };

@@ -1,14 +1,15 @@
-const authServices = require("../services/user.service");
+/**
+ * Authentication Controller
+ * @description Xử lý đăng ký, đăng nhập, và các tác vụ xác thực
+ */
+
+const authServices = require("../services/auth.service");
 const { HTTP_STATUS } = require('../constants');
 const { 
   createError, 
   createValidationError,
   AUTH_ERRORS 
 } = require('../constants/errors');
-/**
- * Authentication Controller
- * Xử lý đăng ký, đăng nhập, và các tác vụ xác thực
- */
 const AuthController = {
   /**
    * Đăng nhập
@@ -16,7 +17,7 @@ const AuthController = {
    */
   login: async (req, res, next) => {
     try {
-      const { email, password } = req.body;
+      const { identifier, password } = req.body;
 
       // Lấy thông tin thiết bị từ request
       const deviceInfo = {
@@ -25,8 +26,11 @@ const AuthController = {
         userAgent: req.headers['user-agent']
       };
 
+     
+
       // Service xử lý validation, authentication, và tạo tokens
-      const result = await authServices.login(email, password, deviceInfo);
+      const result = await authServices.login(identifier, password, deviceInfo);
+
 
       // Set refresh token trong HTTP-only cookie
       res.cookie("refreshToken", result.tokens.refreshToken, {
@@ -51,6 +55,11 @@ const AuthController = {
 
       
     } catch (error) {
+      console.error('Login error:', {
+        message: error.message,
+        code: error.code,
+        stack: error.stack
+      });
       next(error);
     }
   },

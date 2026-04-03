@@ -1,3 +1,8 @@
+/**
+ * Server Entry Point
+ * @description Main server file - Khởi tạo Express app và cấu hình middleware
+ */
+
 const express = require('express');
 const app = express();
 require('dotenv').config();
