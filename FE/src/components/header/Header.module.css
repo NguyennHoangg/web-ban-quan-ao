@@ -3,8 +3,8 @@ header{
     height: 60px;
     background-image:
     linear-gradient(
-      rgba(255, 255, 255, 0.8),
-      rgba(255, 255, 255, 0.8)
+      rgba(255, 255, 255, 0.95),
+      rgba(255, 255, 255, 0.95)
     ),
     url("../../../public/noise-bg.webp");
 
@@ -55,8 +55,9 @@ header{
 }
 .navLinks{
   display: flex;
-  gap: 20px;
+  justify-content: space-between;
   align-items: center;
+  width: 304px;
 }
 .navLinks a, .navLinks select{
   width: auto;
@@ -67,14 +68,14 @@ header{
   text-decoration: none;
   color: #000000;
   transition: background-color 0.3s;
-  font-weight: 600;
+  
 }
 .navLinks a:hover, .navLinks select:hover{
-  background-color: rgba(0, 0, 0, 0.1);
+  font-weight: 600;
 }
 .navLinks a.active{
-  background-color: rgba(0, 0, 0, 0.15);
   
+  font-weight: 600;
 }
 .productSelect{
   border: none;
@@ -82,7 +83,6 @@ header{
   cursor: pointer;
 }
 .productSelect.active{
-  background-color: rgba(0, 0, 0, 0.15);
   font-weight: 600;
 }
 
@@ -101,19 +101,11 @@ header{
   background: transparent;
   color: #000000;
   font-size: 16px;
-  font-weight: 600;
   font-family: BeVietNamPro, sans-serif;
   cursor: pointer;
   transition: background-color 0.3s;
 }
 
-.dropdownButton:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
-.dropdownButton.active {
-  background-color: rgba(0, 0, 0, 0.15);
-}
 
 .dropdownButton .arrow {
   font-size: 10px;
@@ -277,12 +269,51 @@ header{
 }
 
 .loginButton{
-  padding: 8px;
+  padding: 8px; 
   border-radius: 12px;
   border: 1px solid #000000;
   display: flex;
   align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.loginButton:hover{
+  background-color: #f0f0f0;
 }
 .loginButton span{
   margin-left: 8px;
+}
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid #000000;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.logoutBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  padding: 2px 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.logoutBtn:hover {
+  color: #e53e3e;
 }
