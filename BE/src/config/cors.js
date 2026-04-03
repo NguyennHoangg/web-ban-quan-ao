@@ -1,3 +1,8 @@
+/**
+ * CORS Configuration
+ * @description Cấu hình Cross-Origin Resource Sharing
+ */
+
 require('dotenv').config();
 
 module.exports = {

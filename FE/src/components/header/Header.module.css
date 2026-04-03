@@ -1,5 +1,5 @@
 header{
-  width: 100vw;
+  width: 100%;
     height: 60px;
     background-image:
     linear-gradient(
@@ -70,7 +70,7 @@ header{
   transition: background-color 0.3s;
   
 }
-.navLinks a:hover, .navLinks select:hover{
+.navLinks a:hover, .navLinks select:hover, .dropdownContainer:hover .dropdownButton{
   font-weight: 600;
 }
 .navLinks a.active{

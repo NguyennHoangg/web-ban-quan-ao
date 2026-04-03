@@ -1,3 +1,8 @@
+/**
+ * Auth Validator
+ * @description Validation rules cho authentication endpoints
+ */
+
 const { body, validationResult } = require('express-validator');
 const { HTTP_STATUS } = require('../../constants');
 const { createValidationError } = require('../../constants/errors');

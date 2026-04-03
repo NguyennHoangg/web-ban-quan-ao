@@ -1,9 +1,9 @@
-const { query, getClient } = require('../config/db');
-
 /**
  * Session Model
- * Quản lý phiên đăng nhập và refresh tokens
+ * @description Quản lý phiên đăng nhập và refresh tokens
  */
+
+const { query, getClient } = require('../config/db');
 
 /**
  * Tạo session mới khi login

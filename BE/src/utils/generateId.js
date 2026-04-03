@@ -1,3 +1,8 @@
+/**
+ * Generate ID Utility
+ * @description Utility để tạo unique ID cho các entities trong database
+ */
+
 const { query, getClient } = require("../config/db");
 
 /**
