@@ -14,6 +14,7 @@ header{
   justify-content: center;
   align-items: center;
   font-family: BeVietNamPro, sans-serif;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .headerContent{
   max-width: 1280px;
