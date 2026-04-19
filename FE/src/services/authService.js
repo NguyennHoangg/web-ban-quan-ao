@@ -1,5 +1,5 @@
-// API Base URL - Dùng localhost khi develop
-const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+
+const BASE_URL = 'https://web-ban-quan-ao-9s0d.onrender.com/api';
 
 export const authService = {
     login: async (identifier, password) => {
