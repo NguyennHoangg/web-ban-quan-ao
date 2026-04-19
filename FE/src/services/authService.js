@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:3000/api';
+// API Base URL - Dùng localhost khi develop
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
 export const authService = {
     login: async (identifier, password) => {

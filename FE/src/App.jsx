@@ -1,6 +1,7 @@
 import './App.css';
 import Header from './components/header/Header.jsx';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
+import ScrollToTop from './components/scrollToTop/ScrollToTop.jsx';
 import HomePage from './pages/homepage/HomePage.jsx';
 import ProductPage from './pages/product/ProductPage.jsx';
 import ProductDetail from './pages/productDetail/ProductDetail.jsx';
@@ -26,6 +27,7 @@ function Layout() {
 function App() {
   return (
     <Router>
+      <ScrollToTop /> {/* Đặt ngay sau Router để lắng nghe mọi thay đổi pathname */}
       <AuthProvider> {/* Bọc AuthProvider ngoài cùng để quản lý đăng nhập toàn app */}
         <Routes>
           <Route element={<Layout />}>
