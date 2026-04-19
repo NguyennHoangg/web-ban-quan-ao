@@ -72,7 +72,7 @@ export default function Header() {
                     </Link>
                     <div className={styles.dropdownContainer} ref={dropdownRef}>
                         <button 
-                            className={`${styles.dropdownButton} ${location.pathname === '/products' ? styles.active : ''} ${isDropdownOpen ? styles.open : ''}`}
+                            className={`${styles.dropdownButton} ${location.pathname === '/products' && !isDropdownOpen ? styles.active : ''} ${isDropdownOpen ? styles.open : ''}`}
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                         >
                             Product
