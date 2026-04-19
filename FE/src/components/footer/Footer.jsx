@@ -6,7 +6,7 @@ import {
     faDiscord,
     faInstagram,
 } from '@fortawesome/free-brands-svg-icons';
-
+import { Link } from 'react-router-dom';
 export default function Footer() {
     return (
         <>
@@ -18,9 +18,9 @@ export default function Footer() {
                     <div className={styles.info}>
                         <div className={styles.columnInfo}><h2>Link</h2>
                             <ul>
-                                <li><a href="/">Home</a></li>
-                                <li><a href="/products">Products</a></li>
-                                <li><a href="/about-us">About Us</a></li>
+                                <li><Link to="/">Home</Link></li>
+                                <li><Link to="/products">Products</Link></li>
+                                <li><Link to="/about-us">About Us</Link></li>
                             </ul>
                         </div>
                         <div className={styles.columnInfo}><h2>Our team</h2>
