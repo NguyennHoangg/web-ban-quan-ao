@@ -185,14 +185,12 @@ export default function HomePage() {
                                 <div>2026</div>
                             </div>
                         </div>
+                        <Link to="/products">
                         <div className={styles.leftBottom}>
-                            <button onClick={() => alert("Shop Now clicked!")} className={styles.shopNowButton}>Go To Shop <FontAwesomeIcon icon={faArrowRight} /></button>
-                            <div className={styles.navigationButtons}>
-                                <button onClick={() => alert("Next clicked!")} className={styles.moveButton}><FontAwesomeIcon icon={faAngleLeft} /></button>
-                                <button onClick={() => alert("Previous clicked!")} className={styles.moveButton}><FontAwesomeIcon icon={faAngleRight} /></button>
+                            <button className={styles.shopNowButton}>Go To Shop <FontAwesomeIcon icon={faArrowRight} /></button>
+                            
                             </div>
-
-                        </div>
+                        </Link>
                     </div>
                     <div className={styles.right}>
                         <img src={sampleImage1} alt="Sample 1" />
@@ -207,15 +205,15 @@ export default function HomePage() {
                             <div className={styles.row}>NEW</div>
                             <div className={styles.row}>THIS WEEK</div>
                         </div>
-                        <div className={styles.rightTopHeading}>
-                            <Link to="/products"><u>View All</u></Link>
-                        </div>
                     </div>
 
                     <div className={styles.newThisWeekGrid}>
                         {products.filter(product => product.is_new).slice(0, 4).map((product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}
+                    </div>
+                    <div className={styles.viewAllLink}>
+                        <Link to="/products"><button  className={styles.shopNowButton}>View All  <FontAwesomeIcon icon={faArrowRight} /></button></Link>
                     </div>
                 </div>
 
@@ -227,15 +225,15 @@ export default function HomePage() {
                             <div className={styles.row}>The Weekend</div>
                             <div className={styles.row}>Collections</div>
                         </div>
-                        <div className={styles.rightTopHeading}>
-                            <Link to="/products"><u>View All</u></Link>
-                        </div>
                     </div>
 
                     <div className={styles.newThisWeekGrid}>
                         {products.filter(product => product.collections && product.collections.includes("The Weekend")).slice(0, 4).map((product) => (
                             <ProductCard key={product.id} product={product} />
                         ))}
+                    </div>
+                    <div className={styles.viewAllLink}>
+                        <Link to="/products"><button  className={styles.shopNowButton}>View All  <FontAwesomeIcon icon={faArrowRight} /></button></Link>
                     </div>
                 </div>
 
