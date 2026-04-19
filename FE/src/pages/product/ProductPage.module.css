@@ -1,0 +1,14 @@
+.productPage {
+    min-height: calc(100vh - 60px);
+    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+    padding: 36px 20px;
+}
+
+.wrapper {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 320px));
+    gap: 24px;
+    justify-content: center;
+}
