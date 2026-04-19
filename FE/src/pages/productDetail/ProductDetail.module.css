@@ -1,12 +1,18 @@
 .detailPage {
     min-height: calc(100vh - 60px);
-    background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-    padding: 36px 20px;
+        background-image:
+        linear-gradient(rgba(255, 255, 255, 0.95),
+            rgba(255, 255, 255, 0.95)),
+        url("../../../public/noise-bg.webp");
+
+    background-size: cover;
+    background-position: center;
 }
 
 .detailContainer {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1180px;
+    padding: 10px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;

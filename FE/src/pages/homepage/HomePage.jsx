@@ -4,7 +4,7 @@ import sampleImage2 from '../../assets/images/sample2.webp';
 import sampleImage3 from '../../assets/images/sample3.webp';
 import sampleImage4 from '../../assets/images/sample4.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ProductCard from '../../components/productCard/ProductCard';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
