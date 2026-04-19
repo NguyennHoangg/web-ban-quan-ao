@@ -3,6 +3,7 @@ import Header from './components/header/Header.jsx';
 import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom';
 import HomePage from './pages/homepage/HomePage.jsx';
 import ProductPage from './pages/product/ProductPage.jsx';
+import ProductDetail from './pages/productDetail/ProductDetail.jsx';
 import AboutUsPage from './pages/aboutUs/AboutUsPage.jsx';
 import CartPage from './pages/cartPage/CartPage.jsx';
 import Footer from './components/footer/Footer.jsx';
@@ -30,6 +31,7 @@ function App() {
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="products" element={<ProductPage />} />
+            <Route path="products/:slug" element={<ProductDetail />} />
             <Route path="about-us" element={<AboutUsPage />} />
             <Route path="cart" element={<CartPage />} />
             <Route path="login" element={<LoginPage />} />
