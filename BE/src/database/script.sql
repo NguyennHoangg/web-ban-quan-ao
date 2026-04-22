@@ -1133,25 +1133,14 @@ INSERT INTO accounts (id, user_id, account_type, identifier, password_hash, is_v
     ('acc005', 'usr005', 'email', 'phamthid@yahoo.com', '$2b$10$example_hash_5', TRUE);
 
 
--- =====================================================
--- COMPLETION
--- =====================================================
+-- Add columns to products table
+ALTER TABLE products
+ADD COLUMN original_price DECIMAL(12,2),
+ADD COLUMN is_sale BOOLEAN DEFAULT FALSE,
+ADD COLUMN discount_percent DECIMAL(5,2) DEFAULT 0 CHECK (discount_percent >= 0 AND discount_percent <= 100);
 
-DO $$
-BEGIN
-    RAISE NOTICE '================================================';
-    RAISE NOTICE 'Fashion Store Database Schema Created!';
-    RAISE NOTICE '================================================';
-    RAISE NOTICE 'Architecture: Separated Users & Accounts';
-    RAISE NOTICE '------------------------------------------------';
-    RAISE NOTICE 'Core Tables:';
-    RAISE NOTICE '  - users (profile data)';
-    RAISE NOTICE '  - accounts (authentication)';
-    RAISE NOTICE '  - sessions (active sessions)';
-    RAISE NOTICE '------------------------------------------------';
-    RAISE NOTICE 'Total Tables: 19';
-    RAISE NOTICE 'Total Views: 3';
-    RAISE NOTICE 'Total Functions: 7';
-    RAISE NOTICE 'Total Triggers: 25+';
-    RAISE NOTICE '================================================';
-END $$;
+-- Create index for is_sale column
+CREATE INDEX idx_products_is_sale ON products(is_sale);
+
+-- Optional: Backfill data (set original_price = base_price for existing products)
+UPDATE products SET original_price = base_price WHERE original_price IS NULL;

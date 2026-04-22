@@ -1,0 +1,112 @@
+{
+    "success": true,
+    "data": {
+        "product": {
+            "id": "prod_8ec172907730",
+            "name": "Áo Tank Top EasyCare™ Waffle Ít Nhăn Giữ Phom Non Branded 002 Nâu",
+            "slug": "ao-tank-top-easycare-waffle-it-nhan-giu-phom-non-branded-002-nau",
+            "sku": "YAME-72907730",
+            "short_description": "Áo Tank Top EasyCare™ Waffle Ít Nhăn Giữ Phom Non Branded 002 Nâu",
+            "description": "Áo Tank Top EasyCare™ Waffle Ít Nhăn Giữ Phom Non Branded 002 Nâu - Thời trang YAME",
+            "brand": "YAME",
+            "base_price": "99450.00",
+            "requires_shipping": true,
+            "weight_grams": null,
+            "sold_count": 0,
+            "avg_rating": "0.00",
+            "review_count": 0,
+            "is_featured": false,
+            "is_new": false,
+            "is_bestseller": false,
+            "published_at": null,
+            "created_at": "2026-03-05T16:44:13.111Z",
+            "updated_at": "2026-03-05T16:44:13.111Z",
+            "category_id": "cat_186feb42c99b",
+            "category_name": "Áo Thun TankTop (Áo Thun 3 Lỗ)",
+            "category_slug": "ao-thun-tanktop-ao-thun-3-lo",
+            "variants": [
+                {
+                    "id": "var_524c36ee578e",
+                    "sku": "YAME-72907730-M",
+                    "size": "M",
+                    "color": "Standard",
+                    "price": 99450,
+                    "images": [],
+                    "sold_qty": 0,
+                    "image_url": null,
+                    "is_active": true,
+                    "stock_qty": 133,
+                    "is_default": true,
+                    "sale_price": null
+                },
+                {
+                    "id": "var_27938870dca3",
+                    "sku": "YAME-72907730-S",
+                    "size": "S",
+                    "color": "Standard",
+                    "price": 99450,
+                    "images": [],
+                    "sold_qty": 0,
+                    "image_url": null,
+                    "is_active": true,
+                    "stock_qty": 120,
+                    "is_default": false,
+                    "sale_price": null
+                },
+                {
+                    "id": "var_304c4d44c905",
+                    "sku": "YAME-72907730-L",
+                    "size": "L",
+                    "color": "Standard",
+                    "price": 99450,
+                    "images": [],
+                    "sold_qty": 0,
+                    "image_url": null,
+                    "is_active": true,
+                    "stock_qty": 112,
+                    "is_default": false,
+                    "sale_price": null
+                },
+                {
+                    "id": "var_cf9db3e2bf6d",
+                    "sku": "YAME-72907730-XL",
+                    "size": "XL",
+                    "color": "Standard",
+                    "price": 99450,
+                    "images": [],
+                    "sold_qty": 0,
+                    "image_url": null,
+                    "is_active": true,
+                    "stock_qty": 141,
+                    "is_default": false,
+                    "sale_price": null
+                },
+                {
+                    "id": "var_d26ddc16996b",
+                    "sku": "YAME-72907730-XXL",
+                    "size": "XXL",
+                    "color": "Standard",
+                    "price": 99450,
+                    "images": [],
+                    "sold_qty": 0,
+                    "image_url": null,
+                    "is_active": true,
+                    "stock_qty": 88,
+                    "is_default": false,
+                    "sale_price": null
+                }
+            ],
+            "product_images": [
+                {
+                    "id": "img_f09cf58af710",
+                    "url": "https://yame.vn/cdn/shop/files/23717_thumb_1.jpg?v=1760775957&width=533",
+                    "alt_text": "",
+                    "is_primary": true,
+                    "sort_order": 0,
+                    "thumbnail_url": "https://yame.vn/cdn/shop/files/23717_thumb_1.jpg?v=1760775957&width=533"
+                }
+            ]
+        }
+    }
+}
+

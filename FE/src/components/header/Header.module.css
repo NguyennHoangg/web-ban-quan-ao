@@ -1,19 +1,19 @@
 header{
-  width: 100vw;
-    height: 60px;
-    background-image:
+  width: 100%;
+  height: 60px;
+  background-image:
     linear-gradient(
       rgba(255, 255, 255, 0.95),
       rgba(255, 255, 255, 0.95)
     ),
     url("../../../public/noise-bg.webp");
-
   background-size: cover;
   background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: BeVietNamPro, sans-serif;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .headerContent{
   max-width: 1280px;
@@ -58,8 +58,11 @@ header{
   justify-content: space-between;
   align-items: center;
   width: 304px;
+  
 }
-.navLinks a, .navLinks select{
+.navLinks a {
+  font-family: "Mona Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 600;
   width: auto;
   height: 40px;
   text-align: center;
@@ -67,23 +70,27 @@ header{
   border-radius: 8px;
   text-decoration: none;
   color: #000000;
-  transition: background-color 0.3s;
-  
-}
-.navLinks a:hover, .navLinks select:hover{
-  font-weight: 600;
-}
-.navLinks a.active{
-  
-  font-weight: 600;
-}
-.productSelect{
   border: none;
-  background: transparent;
+  background-color: transparent;
   cursor: pointer;
+  transition: color 0.3s ease;
 }
-.productSelect.active{
-  font-weight: 600;
+
+/* Active state - chỉ hiện khi ở trang đó */
+.navLinks a.active {
+  background-color: #D9D9D9;
+  color: #000000;
+}
+
+/* Active + Hover: không đổi màu */
+.navLinks a.active:hover {
+  background-color: #D9D9D9;
+  color: #000000;
+}
+
+/* Hover khi không active: màu chữ xám nhạt */
+.navLinks a:hover:not(.active) {
+  color: #999999;
 }
 
 /* Custom Dropdown Styles */
@@ -92,6 +99,8 @@ header{
 }
 
 .dropdownButton {
+  font-family: "Mona Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -103,7 +112,25 @@ header{
   font-size: 16px;
   font-family: BeVietNamPro, sans-serif;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: color 0.3s ease;
+}
+
+/* Active state - chỉ hiện khi ở /products và dropdown KHÔNG mở */
+.dropdownButton.active {
+  color: #000000;
+}
+
+/* Active + Hover: không đổi màu */
+.dropdownButton.active:hover,
+.dropdownContainer:hover .dropdownButton.active {
+  color: #999999;
+}
+
+
+/* Dropdown mở: không thay đổi màu chữ */
+.dropdownButton.open {
+  background-color: transparent;
+  color: #000000;
 }
 
 
@@ -123,8 +150,8 @@ header{
   min-width: 200px;
   background-image:
     linear-gradient(
-      rgba(255, 255, 255, 0.8),
-      rgba(255, 255, 255, 0.8)
+      rgba(255, 255, 255, 0.95),
+      rgba(255, 255, 255, 0.95)
     ),
     url("../../../public/noise-bg.webp");
 
@@ -153,7 +180,7 @@ header{
   color: #000000;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: color 0.2s ease;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
@@ -161,8 +188,9 @@ header{
   border-bottom: none;
 }
 
+/* Dropdown item hover - màu chữ xám nhạt (giống navlink không active) */
 .dropdownItem:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  color: #999999;
 }
 .userActions{
   display: flex;

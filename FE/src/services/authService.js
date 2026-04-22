@@ -1,4 +1,5 @@
-const BASE_URL = 'http://localhost:3000/api';
+
+const BASE_URL = 'https://web-ban-quan-ao-9s0d.onrender.com/api';
 
 export const authService = {
     login: async (identifier, password) => {
