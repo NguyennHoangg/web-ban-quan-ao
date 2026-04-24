@@ -10,6 +10,7 @@ import CartPage from './pages/cartPage/CartPage.jsx';
 import Footer from './components/footer/Footer.jsx';
 import LoginPage from './pages/loginPage/LoginPage.jsx';
 import { AuthProvider } from './context/AuthContext.jsx';
+import { ProductProvider } from './context/ProductContext.jsx';
 import NotFound from './pages/notFoundPage/NotFound.jsx';
 // Cấu trúc Layout để Header và Footer luôn hiển thị ở mọi trang
 function Layout() {
@@ -28,18 +29,20 @@ function App() {
   return (
     <Router>
       <ScrollToTop /> {/* Đặt ngay sau Router để lắng nghe mọi thay đổi pathname */}
-      <AuthProvider> {/* Bọc AuthProvider ngoài cùng để quản lý đăng nhập toàn app */}
-        <Routes>
-          <Route element={<Layout />}>
-            <Route index element={<HomePage />} />
-            <Route path="products" element={<ProductPage />} />
-            <Route path="products/:slug" element={<ProductDetail />} />
-            <Route path="about-us" element={<AboutUsPage />} />
-            <Route path="cart" element={<CartPage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Route>
-        </Routes>
+      <AuthProvider> {/* Bọc AuthProvider */}
+        <ProductProvider> {/* Bọc ProductProvider để quản lý dữ liệu sản phẩm */}
+          <Routes>
+            <Route element={<Layout />}>
+              <Route index element={<HomePage />} />
+              <Route path="products" element={<ProductPage />} />
+              <Route path="products/:slug" element={<ProductDetail />} />
+              <Route path="about-us" element={<AboutUsPage />} />
+              <Route path="cart" element={<CartPage />} />
+              <Route path="login" element={<LoginPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+          </Routes>
+        </ProductProvider>
       </AuthProvider>
     </Router>
   );
