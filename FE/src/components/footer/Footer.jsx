@@ -1,5 +1,5 @@
 import styles from './Footer.module.css';
-import logo from '../../../public/logo-KHK.webp';
+import logo from '/logo-KHK.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faYoutube,

@@ -1,5 +1,5 @@
 import styles from './Header.module.css';
-import logo from '../../../public/logo-KHK.webp';
+import logo from '/logo-KHK.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faCartShopping, faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
