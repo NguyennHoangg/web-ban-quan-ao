@@ -142,13 +142,13 @@ export default function Header() {
                         <div className={styles.userMenu}>
                             <FontAwesomeIcon icon={faUser} />
                             <span className={styles.userName}>{user.fullName || user.email}</span>
-                            <button className={styles.logoutBtn} onClick={logout} title="Đăng xuất">
+                            <button className={styles.logoutBtn} onClick={logout} title="Logout">
                                 <FontAwesomeIcon icon={faRightFromBracket} />
                             </button>
                         </div>
                     ) : (
                         <div className={styles.loginButton} onClick={() => navigate('/login')}>
-                            <FontAwesomeIcon icon={faUser} /><span>Đăng nhập</span>
+                            <FontAwesomeIcon icon={faUser} /><span>Login</span>
                         </div>
                     )}
                 </div>
