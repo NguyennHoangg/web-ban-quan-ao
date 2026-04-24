@@ -73,9 +73,6 @@ export default function ProductCard({ product }) {
                     {product.sold_count > 0 && (
                         <span className={styles.soldCount}>Sold: {product.sold_count}</span>
                     )}
-                    {product.has_variants && (
-                        <span className={styles.variantIndicator}>+Options</span>
-                    )}
                 </div>
             </div>
         </article>

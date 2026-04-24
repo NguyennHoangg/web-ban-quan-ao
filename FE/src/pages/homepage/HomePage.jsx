@@ -6,15 +6,15 @@ import sampleImage4 from '../../assets/images/sample4.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ProductCard from '../../components/productCard/ProductCard';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-// Initial empty state for products
-const initialProducts = [];
+import { useProducts } from '../../context/ProductContext';
 
 export default function HomePage() {
-    const [products, setProducts] = useState(initialProducts);
+    // Lấy dữ liệu products từ Context
+    const { products, loading, error } = useProducts();
 
     useEffect(() => {
         // Initialize AOS (Animate On Scroll)
@@ -23,18 +23,6 @@ export default function HomePage() {
             once: true,
             offset: 100
         });
-
-        // Fetch products from API
-        const fetchProducts = async () => {
-            try {
-                const res = await fetch('https://web-ban-quan-ao-9s0d.onrender.com/api/products/list');
-                const data = await res.json();
-                setProducts(data.products || []);
-            } catch (error) {
-                console.error('Error fetching products:', error);
-            }
-        };
-        fetchProducts();
     }, []);
     return (
         <div className={styles.homePage}>
@@ -73,9 +61,15 @@ export default function HomePage() {
                     </div>
 
                     <div className={styles.newThisWeekGrid}>
-                        {products.filter(product => product.is_new).slice(0, 4).map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
+                        {loading ? (
+                            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>Đang tải sản phẩm...</p>
+                        ) : error ? (
+                            <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'red' }}>Lỗi: {error}</p>
+                        ) : (
+                            products.slice(5, 9).map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))
+                        )}
                     </div>
                     <div className={styles.viewAllLink}>
                         <Link to="/products"><button  className={styles.shopNowButton}>View All  <FontAwesomeIcon icon={faArrowRight} /></button></Link>
@@ -93,9 +87,18 @@ export default function HomePage() {
                     </div>
 
                     <div className={styles.newThisWeekGrid}>
-                        {products.filter(product => product.collections && product.collections.includes("The Weekend")).slice(0, 4).map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
+                        {loading ? (
+                            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>Đang tải sản phẩm...</p>
+                        ) : error ? (
+                            <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'red' }}>Lỗi: {error}</p>
+                        ) : (
+                            (products.filter(product => product.brand === "YAME").length > 0
+                                ? products.filter(product => product.brand === "YAME")
+                                : products
+                            ).slice(0, 4).map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))
+                        )}
                     </div>
                     <div className={styles.viewAllLink}>
                         <Link to="/products"><button  className={styles.shopNowButton}>View All  <FontAwesomeIcon icon={faArrowRight} /></button></Link>
