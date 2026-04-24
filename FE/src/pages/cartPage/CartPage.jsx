@@ -1,5 +1,8 @@
+import styles from "./CartPage.module.css";
 export default function CartPage() {
     return (
-        <div>Cart Page</div>
+        <div className={styles.cartPage}>
+            {/* Cart content goes here */}
+        </div>
     );
 } 
