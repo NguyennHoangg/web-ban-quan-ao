@@ -2,14 +2,15 @@ import { Link } from 'react-router-dom';
 import styles from './AboutUsPage.module.css';
 import sampleImage3 from '../../assets/images/sample3.webp';
 import sampleImage4 from '../../assets/images/sample4.webp';
+import TextType from '../../components/TextType/TextType';
 
 const storySections = [
     {
         eyebrow: 'Since 2014',
         title: 'What We Do',
         description:
-            'KHK Fashion mang đến các bộ sưu tập thời trang chất lượng cao, kết hợp giữa xu hướng hiện đại và tính ứng dụng hằng ngày. Chúng tôi tập trung vào chất liệu bền đẹp, phom dáng vừa vặn và trải nghiệm mua sắm dễ dàng.',
-        buttonText: 'More',
+            'KHK Fashion offers high-quality fashion collections that combine modern trends with everyday wearability. We focus on durable materials, flattering fits, and an easy shopping experience. Our mission is to help customers express their unique style with confidence and comfort.',
+        
         image: sampleImage4,
         reverse: false,
     },
@@ -17,8 +18,7 @@ const storySections = [
         eyebrow: '',
         title: 'When We Started',
         description:
-            'Từ một nhóm nhỏ đam mê thời trang, KHK Fashion đã phát triển thành thương hiệu được khách hàng trẻ tin tưởng. Từng sản phẩm được chọn lọc kỹ lưỡng để giữ vững tiêu chí đẹp, thoải mái và bền vững theo thời gian.',
-        buttonText: 'More',
+            'From a small group of fashion enthusiasts, KHK Fashion has grown into a trusted brand among young customers. Each product is carefully selected to maintain the criteria of beauty, comfort, and durability over time. We are committed to providing a seamless shopping experience and continuously updating our collections to meet the evolving tastes of our customers.',
         image: sampleImage3,
         reverse: true,
     },
@@ -45,31 +45,38 @@ const teamMembers = [
 export default function AboutUsPage() {
     return (
         <div className={styles.aboutPage}>
-            <section className={styles.heroSection}>
-                <p className={styles.eyebrow}>About Us</p>
-                <h1 className={styles.heroTitle}>Who we are.</h1>
+            <section className={styles.heroSection} data-aos="fade-up">
+                <h1 className={styles.heroTitle}>Who we are?</h1>
                 <p className={styles.heroDescription}>
-                    KHK Fashion là đội ngũ yêu thời trang và tin rằng mỗi người đều xứng đáng mặc đẹp theo cách riêng.
-                    Chúng tôi xây dựng một không gian mua sắm hiện đại, thân thiện và luôn cập nhật xu hướng mới nhất.
+                    <TextType
+                        texts={[
+                            'KHK Fashion is a team of fashion enthusiasts who believe that everyone deserves to look and feel great in their own unique way. We create a modern, friendly shopping experience and stay up-to-date with the latest trends.'
+                        ]}
+                        typingSpeed={50}
+                        pauseDuration={2000}
+                        showCursor={false}
+                    />
                 </p>
-                <Link className={styles.primaryButton} to="/products">
-                    More
-                </Link>
             </section>
 
-            <section className={styles.storySection}>
+            <section className={styles.storySection} >
                 {storySections.map((item) => (
                     <article
                         key={item.title}
                         className={`${styles.storyRow} ${item.reverse ? styles.reverse : ''}`}
+                        data-aos="fade-up"
                     >
                         <div className={styles.storyContent}>
                             {item.eyebrow ? <p className={styles.eyebrow}>{item.eyebrow}</p> : null}
                             <h2>{item.title}</h2>
-                            <p>{item.description}</p>
-                            <button className={styles.primaryButton} type="button">
-                                {item.buttonText}
-                            </button>
+                            <p>
+                                <TextType
+                                    texts={[item.description]}
+                                    typingSpeed={40}
+                                    pauseDuration={2000}
+                                    showCursor={false}
+                                />
+                            </p>
                         </div>
                         <div className={styles.imageStack}>
                             <img src={item.image} alt={item.title} className={styles.imageBack} />
@@ -80,11 +87,17 @@ export default function AboutUsPage() {
                 ))}
             </section>
 
-            <section className={styles.teamSection}>
+            <section className={styles.teamSection} data-aos="fade-up">
                 <h2>Our Makers</h2>
                 <p>
-                    Đội ngũ KHK quy tụ những thành viên có kinh nghiệm trong thiết kế, vận hành và phát triển thương hiệu.
-                    Chúng tôi cùng nhau tạo nên những bộ sưu tập phù hợp với nhiều phong cách sống.
+                    <TextType
+                        texts={[
+                            "KHK's team brings together experienced professionals in design, operations, and brand development. We collaborate to create collections that cater to diverse lifestyles."
+                        ]}
+                        typingSpeed={50}
+                        pauseDuration={2000}
+                        showCursor={false}
+                    />
                 </p>
 
                 <div className={styles.teamGrid}>
