@@ -3,7 +3,15 @@
  * @description Xử lý đăng ký, đăng nhập, và các tác vụ xác thực
  */
 
-const authServices = require("../services/auth.service");
+const {
+  login,
+  createUser,
+  refreshAccessToken,
+  logout,
+  logoutAllDevices,
+  getUserSessions,
+  logoutSessionById,
+} = require("../services/auth.service");
 const { HTTP_STATUS } = require('../constants');
 const { 
   createError, 
@@ -29,7 +37,7 @@ const AuthController = {
      
 
       // Service xử lý validation, authentication, và tạo tokens
-      const result = await authServices.login(identifier, password, deviceInfo);
+      const result = await login(identifier, password, deviceInfo);
 
 
       // Set refresh token trong HTTP-only cookie
@@ -73,7 +81,7 @@ const AuthController = {
       const { email, password, fullName, phone, role } = req.body;
 
       // Service xử lý validation và tạo user
-      const result = await authServices.createUser(email, password, fullName, phone, role);
+      const result = await createUser(email, password, fullName, phone, role);
 
       // Response
       res.status(HTTP_STATUS.CREATED).json({
@@ -98,7 +106,7 @@ const AuthController = {
 
       // Vô hiệu hóa session trong database
       if (refreshToken) {
-        await authServices.logout(refreshToken);
+        await logout(refreshToken);
       }
 
       // Xóa refresh token cookie
@@ -133,7 +141,7 @@ const AuthController = {
       }
 
       // Verify và generate tokens mới
-      const tokens = await authServices.refreshAccessToken(refreshToken);
+      const tokens = await refreshAccessToken(refreshToken);
 
       res.status(HTTP_STATUS.OK).json({
         success: true,
@@ -158,7 +166,7 @@ const AuthController = {
       const userId = req.user.userId; // Từ authenticate middleware
 
       // Vô hiệu hóa tất cả sessions của user
-      const count = await authServices.logoutAllDevices(userId);
+      const count = await logoutAllDevices(userId);
 
       // Xóa refresh token cookie của session hiện tại
       res.clearCookie('refreshToken', {
@@ -192,7 +200,7 @@ const AuthController = {
       const currentRefreshToken = req.cookies.refreshToken;
 
       // Lấy danh sách sessions từ service
-      const sessions = await authServices.getUserSessions(userId, currentRefreshToken);
+      const sessions = await getUserSessions(userId, currentRefreshToken);
 
       res.status(HTTP_STATUS.OK).json({
         success: true,
@@ -219,7 +227,7 @@ const AuthController = {
       const sessionId = req.params.sessionId;
 
       // Vô hiệu hóa session cụ thể
-      const success = await authServices.logoutSessionById(sessionId, userId);
+      const success = await logoutSessionById(sessionId, userId);
 
       if (!success) {
         return res.status(HTTP_STATUS.NOT_FOUND).json({

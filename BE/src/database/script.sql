@@ -359,6 +359,11 @@ CREATE INDEX idx_products_sku ON products(sku);
 CREATE INDEX idx_products_status ON products(status);
 CREATE INDEX idx_products_brand ON products(brand);
 CREATE INDEX idx_products_is_featured ON products(is_featured);
+CREATE INDEX idx_products_created_at ON products(created_at DESC);
+CREATE INDEX idx_products_avg_rating ON products(avg_rating DESC);
+CREATE INDEX idx_products_sold_count ON products(sold_count DESC);
+CREATE INDEX idx_variants_product_active ON product_variants(product_id, is_active);
+CREATE INDEX idx_product_images_product_primary ON product_images(product_id, is_primary DESC, sort_order ASC);
 CREATE INDEX idx_products_avg_rating ON products(avg_rating DESC);
 CREATE INDEX idx_products_sold_count ON products(sold_count DESC);
 CREATE INDEX idx_products_created_at ON products(created_at DESC);
@@ -1128,25 +1133,14 @@ INSERT INTO accounts (id, user_id, account_type, identifier, password_hash, is_v
     ('acc005', 'usr005', 'email', 'phamthid@yahoo.com', '$2b$10$example_hash_5', TRUE);
 
 
--- =====================================================
--- COMPLETION
--- =====================================================
+-- Add columns to products table
+ALTER TABLE products
+ADD COLUMN original_price DECIMAL(12,2),
+ADD COLUMN is_sale BOOLEAN DEFAULT FALSE,
+ADD COLUMN discount_percent DECIMAL(5,2) DEFAULT 0 CHECK (discount_percent >= 0 AND discount_percent <= 100);
 
-DO $$
-BEGIN
-    RAISE NOTICE '================================================';
-    RAISE NOTICE 'Fashion Store Database Schema Created!';
-    RAISE NOTICE '================================================';
-    RAISE NOTICE 'Architecture: Separated Users & Accounts';
-    RAISE NOTICE '------------------------------------------------';
-    RAISE NOTICE 'Core Tables:';
-    RAISE NOTICE '  - users (profile data)';
-    RAISE NOTICE '  - accounts (authentication)';
-    RAISE NOTICE '  - sessions (active sessions)';
-    RAISE NOTICE '------------------------------------------------';
-    RAISE NOTICE 'Total Tables: 19';
-    RAISE NOTICE 'Total Views: 3';
-    RAISE NOTICE 'Total Functions: 7';
-    RAISE NOTICE 'Total Triggers: 25+';
-    RAISE NOTICE '================================================';
-END $$;
+-- Create index for is_sale column
+CREATE INDEX idx_products_is_sale ON products(is_sale);
+
+-- Optional: Backfill data (set original_price = base_price for existing products)
+UPDATE products SET original_price = base_price WHERE original_price IS NULL;
