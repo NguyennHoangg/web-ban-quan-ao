@@ -63,7 +63,7 @@ export default function ProductCard({ product }) {
                 )}
 
                 <div className={styles.priceSection}>
-                    <span className={styles.price}>₫{formatPrice(product.display_price)}</span>
+                    <span className={styles.price}>{formatPrice(product.display_price)}₫</span>
                     {product.is_sale && product.original_price && parseFloat(product.original_price) > parseFloat(product.display_price) && (
                         <span className={styles.originalPrice}>₫{formatPrice(product.original_price)}</span>
                     )}
@@ -72,9 +72,6 @@ export default function ProductCard({ product }) {
                 <div className={styles.bottomRow}>
                     {product.sold_count > 0 && (
                         <span className={styles.soldCount}>Sold: {product.sold_count}</span>
-                    )}
-                    {product.has_variants && (
-                        <span className={styles.variantIndicator}>+Options</span>
                     )}
                 </div>
             </div>

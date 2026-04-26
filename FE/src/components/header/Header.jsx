@@ -1,5 +1,5 @@
 import styles from './Header.module.css';
-import logo from '../../../public/logo-KHK.webp';
+import logo from '/logo-KHK.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faCartShopping, faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -142,13 +142,13 @@ export default function Header() {
                         <div className={styles.userMenu}>
                             <FontAwesomeIcon icon={faUser} />
                             <span className={styles.userName}>{user.fullName || user.email}</span>
-                            <button className={styles.logoutBtn} onClick={logout} title="Đăng xuất">
+                            <button className={styles.logoutBtn} onClick={logout} title="Logout">
                                 <FontAwesomeIcon icon={faRightFromBracket} />
                             </button>
                         </div>
                     ) : (
                         <div className={styles.loginButton} onClick={() => navigate('/login')}>
-                            <FontAwesomeIcon icon={faUser} /><span>Đăng nhập</span>
+                            <FontAwesomeIcon icon={faUser} /><span>Login</span>
                         </div>
                     )}
                 </div>

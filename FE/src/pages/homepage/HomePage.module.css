@@ -3,7 +3,7 @@
     background-image:
         linear-gradient(rgba(255, 255, 255, 0.95),
             rgba(255, 255, 255, 0.95)),
-        url("../../../public/noise-bg.webp");
+        url("/noise-bg.webp");
 
     background-size: cover;
     background-position: center;
@@ -16,14 +16,16 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .heroContent {
-    height: 376px;
+    height: auto;
     width: 1180px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 .left{
+    height: 320px;
     width: 397px;
-    height: 100%;
+    margin-left: 80px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -44,8 +46,8 @@
     line-height: 22px;
 }
 .right{
-    width: 773px;
-    height: 100%;
+    width: 600px;
+    height: 600px;
     display: flex;
     justify-content: space-between;
 }
