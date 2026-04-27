@@ -1,4 +1,4 @@
-const { findManyForList, findProductDetailsBySlug } = require("../services/product.service");
+const { findManyForList, findProductDetailsBySlug, deleteProduct } = require("../services/product.service");
 
 const ProductController = {
     async getManyForList(req, res, next) {
@@ -56,7 +56,20 @@ const ProductController = {
     } catch (error) {
         next(error);
     }
-}
+},
+
+ async deleteProduct(req, res, next) {
+    try {
+      const { id } = req.params;
+      const result = await deleteProduct(id);
+      return res.status(200).json({
+        success: true,
+        message: "Xóa sản phẩm thành công",
+      });
+    } catch (error) {
+      next(error);
+    }
+},
 }
 
 
