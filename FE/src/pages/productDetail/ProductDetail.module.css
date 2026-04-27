@@ -86,6 +86,14 @@
     background: #f3f4f6;
 }
 
+.thumbnail:hover {
+    border: 2px solid #1f2937;
+}
+
+.thumbnail.selected {
+    border: 2px solid #1f2937;
+}
+
 
 
 /* ========== INFO SECTION ========== */
@@ -408,6 +416,7 @@
     color: #374151;
     line-height: 1.8;
     white-space: pre-wrap;
+    white-space: pre-line;
 }
 
 .infoCard {
