@@ -206,7 +206,7 @@ export default function ProductDetail() {
                         {/* Variants Section - Size Selection */}
                         {product.variants && product.variants.length > 0 && (
                             <div className={styles.variantsSection}>
-                                <label className={styles.variantLabel}>Choose Size:</label>
+                                <label className={styles.variantLabel}>Chọn size:</label>
                                 <div className={styles.variantGrid}>
                                     {product.variants.map((variant) => (
                                         <button
@@ -225,7 +225,7 @@ export default function ProductDetail() {
                                 </div>
                                 {selectedVariant && (
                                     <p className={styles.variantStock}>
-                                        <FontAwesomeIcon icon={faCheck} /> Stockroom: {selectedVariant.stock_qty} available
+                                        <FontAwesomeIcon icon={faCheck} /> Còn: {selectedVariant.stock_qty} sản phẩm
                                     </p>
                                 )}
                             </div>
@@ -233,7 +233,7 @@ export default function ProductDetail() {
 
                         {/* Quantity Section */}
                         <div className={styles.quantitySection}>
-                            <label className={styles.quantityLabel}>Quantity:</label>
+                            <label className={styles.quantityLabel}>Số lượng:</label>
                             <div className={styles.quantityControl}>
                                 <button
                                     className={styles.quantityBtn}
@@ -264,13 +264,13 @@ export default function ProductDetail() {
                             className={styles.addToCartBtn}
                             disabled={totalStock === 0}
                         >
-                            <FontAwesomeIcon icon={faShoppingCart} /> Add to Cart
+                            <FontAwesomeIcon icon={faShoppingCart} /> Thêm vào giỏ hàng
                         </button>
                         <button
                             className={styles.buyNow}
                             disabled={totalStock === 0}
                         >
-                            Buy Now
+                            Mua ngay
                         </button>
 
                     </div>
@@ -279,21 +279,21 @@ export default function ProductDetail() {
                 {/* Product Description Section */}
                 {product.description && (
                     <div className={styles.descriptionSection}>
-                        <h2>Product Details</h2>
+                        <h2>Chi tiết sản phẩm</h2>
                         <div className={styles.descriptionContent}>
                             {formatDescription(product.description)}
                         </div>
 
                         <div className={styles.infoCard}>
-                            <h3><FontAwesomeIcon icon={faBox} /> Shipping Information</h3>
-                            <p>{product.requires_shipping ? 'Free shipping nationwide' : 'No shipping available'}</p>
-                            {product.weight_grams && <p>Weight: {product.weight_grams}g</p>}
+                            <h3><FontAwesomeIcon icon={faBox} /> Thông tin vận chuyển</h3>
+                            <p>{product.requires_shipping ? 'Vận chuyển miễn phí toàn quốc' : 'Không có dịch vụ vận chuyển'}</p>
+                            {product.weight_grams && <p>Trọng lượng: {product.weight_grams}g</p>}
                         </div>
 
                         <div className={styles.infoCard}>
-                            <h3><FontAwesomeIcon icon={faStore} /> Product Status</h3>
-                            <p>Created: {new Date(product.created_at).toLocaleDateString('vi-VN')}</p>
-                            {product.updated_at && <p>Updated: {new Date(product.updated_at).toLocaleDateString('vi-VN')}</p>}
+                            <h3><FontAwesomeIcon icon={faStore} /> Trạng thái sản phẩm</h3>
+                            <p>Được tạo: {new Date(product.created_at).toLocaleDateString('vi-VN')}</p>
+                            {product.updated_at && <p>Được cập nhật: {new Date(product.updated_at).toLocaleDateString('vi-VN')}</p>}
                         </div>
                     </div>
                 )}
@@ -305,11 +305,11 @@ export default function ProductDetail() {
             {/* Related Products Section */}
             <div className={styles.relatedProductsSection}>
                 <div className={styles.relatedProductsWrapper}>
-                    <h2 className={styles.relatedProductsTitle}>Related Products</h2>
+                    <h2 className={styles.relatedProductsTitle}>Sản phẩm liên quan</h2>
                     
                     <div className={styles.relatedProductsGrid}>
                         {!product ? (
-                            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>No related products</p>
+                            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>Không có sản phẩm liên quan</p>
                         ) : (
                             <>
                                 {/* Get 4 products excluding current product */}
@@ -318,7 +318,7 @@ export default function ProductDetail() {
                                         <ProductCard key={relatedProduct.id} product={relatedProduct} />
                                     ))
                                 ) : (
-                                    <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>No related products available</p>
+                                    <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>Không có sản phẩm liên quan</p>
                                 )}
                             </>
                         )}
