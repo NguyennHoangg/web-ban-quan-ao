@@ -29,10 +29,10 @@ export default function NotFound() {
           <img src={notFoundImage} alt="Not Found" /></div>
         <div className={styles.textContent}>
           <h1>Oops!</h1>
-          <h2>We couldn't find the page you were looking for.</h2>
+          <h2>Chúng tôi không tìm thấy trang bạn đang tìm kiếm.</h2>
           
-          <Link to="/"><button className={styles.goBackButton}> <FontAwesomeIcon icon={faArrowLeft} /> Go Home</button></Link>
-          <p>You will be redirected to the <Link to="/">homepage</Link> after <strong>{countdown}</strong> seconds.</p>
+          <Link to="/"><button className={styles.goBackButton}> <FontAwesomeIcon icon={faArrowLeft} /> &nbsp; Quay lại trang chủ</button></Link>
+          <p>Bạn sẽ được chuyển hướng đến <Link to="/">trang chủ</Link> sau <strong>{countdown}</strong> giây.</p>
         </div>
       </div>
     </div>

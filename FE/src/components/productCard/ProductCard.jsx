@@ -71,7 +71,7 @@ export default function ProductCard({ product }) {
 
                 <div className={styles.bottomRow}>
                     {product.sold_count > 0 && (
-                        <span className={styles.soldCount}>Sold: {product.sold_count}</span>
+                        <span className={styles.soldCount}>Đã bán: {product.sold_count}</span>
                     )}
                 </div>
             </div>

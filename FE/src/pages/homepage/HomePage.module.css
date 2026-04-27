@@ -189,7 +189,7 @@ button:hover{
 
 .ourApproachToFashionDesignHeading{
     font-size: 36px;
-    font-family: Playfair Display, serif;
+    font-family: Inter, Roboto, sans-serif;
     color: black;
     text-align: center;
 }
@@ -201,6 +201,7 @@ button:hover{
     text-align: center;
     max-width: 685px;
     padding: 12px 0;
+    margin: 0 auto;
 }
 .ourApproachToFashionDesignImages {
     display: flex;
