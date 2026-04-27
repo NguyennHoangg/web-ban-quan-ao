@@ -58,7 +58,7 @@ export default function Header() {
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                     <input 
                         type="text" 
-                        placeholder="Search Items, Fashion, Collection and Users" 
+                        placeholder="Tìm kiếm sản phẩm..." 
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
@@ -68,29 +68,29 @@ export default function Header() {
                         to="/" 
                         className={location.pathname === '/' ? styles.active : ''}
                     >
-                        Home
+                        Trang chủ
                     </Link>
                     <div className={styles.dropdownContainer} ref={dropdownRef}>
                         <button 
                             className={`${styles.dropdownButton} ${location.pathname === '/products' && !isDropdownOpen ? styles.active : ''} ${isDropdownOpen ? styles.open : ''}`}
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                         >
-                            Product
+                            Sản phẩm
                             <span className={styles.arrow}>▼</span>
                         </button>
                         {isDropdownOpen && (
                             <div className={styles.dropdownMenu}>
                                 <div className={styles.dropdownItem} onClick={() => handleProductClick('all')}>
-                                    All
+                                    Tất cả
                                 </div>
                                 <div className={styles.dropdownItem} onClick={() => handleProductClick('tops')}>
-                                    Tops
+                                    Áo
                                 </div>
                                 <div className={styles.dropdownItem} onClick={() => handleProductClick('bottoms')}>
-                                    Bottoms
+                                    Quần
                                 </div>
                                 <div className={styles.dropdownItem} onClick={() => handleProductClick('outerwear')}>
-                                    Outerwear
+                                    Áo khoác
                                 </div>
                                 <div className={styles.dropdownItem} onClick={() => handleProductClick('sale')}>
                                     Sale
@@ -102,7 +102,7 @@ export default function Header() {
                         to="/about-us" 
                         className={location.pathname === '/about-us' ? styles.active : ''}
                     >
-                        About Us
+                        Về chúng tôi
                     </Link>
                 </div>
                 <div className={styles.userActions}>
@@ -142,13 +142,13 @@ export default function Header() {
                         <div className={styles.userMenu}>
                             <FontAwesomeIcon icon={faUser} />
                             <span className={styles.userName}>{user.fullName || user.email}</span>
-                            <button className={styles.logoutBtn} onClick={logout} title="Logout">
+                            <button className={styles.logoutBtn} onClick={logout} title="Đăng xuất">
                                 <FontAwesomeIcon icon={faRightFromBracket} />
                             </button>
                         </div>
                     ) : (
                         <div className={styles.loginButton} onClick={() => navigate('/login')}>
-                            <FontAwesomeIcon icon={faUser} /><span>Login</span>
+                            <FontAwesomeIcon icon={faUser} /><span>Đăng nhập</span>
                         </div>
                     )}
                 </div>
