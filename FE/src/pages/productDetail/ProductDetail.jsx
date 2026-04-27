@@ -26,6 +26,7 @@ export default function ProductDetail() {
     const [error, setError] = useState(null);
     const [selectedVariant, setSelectedVariant] = useState(null);
     const [quantity, setQuantity] = useState(1);
+    const [selectedImageIndex, setSelectedImageIndex] = useState(0);
     
     // Get all products from context for related products section
     const { products: allProducts } = useProducts();
@@ -60,6 +61,7 @@ export default function ProductDetail() {
                         const defaultVar = productData.variants.find(v => v.is_default) || productData.variants[0];
                         setSelectedVariant(defaultVar);
                     }
+                    setSelectedImageIndex(0);
                 } else {
                     throw new Error('Cấu trúc dữ liệu không hợp lệ');
                 }
@@ -116,6 +118,21 @@ export default function ProductDetail() {
         return parseFloat(price).toLocaleString('vi-VN');
     };
 
+    const formatDescription = (text) => {
+    if (!text) return '';
+
+    // 1. Dịch ngược các HTML entities (ví dụ: &amp; -> &)
+    let formattedText = text.replace(/&amp;/g, '&');
+
+    // 2. Tự động thêm 2 dấu xuống dòng (\n\n) trước các số thứ tự (1. 2. 3.) và các Tiêu đề lớn
+    formattedText = formattedText.replace(/(?=\b\d+\.\s)|(?=TỔNG KẾT)|(?=THÔNG TIN NHANH)|(?=Mô Tả Ngắn)/g, '\n\n');
+
+    // 3. Thêm 1 dấu xuống dòng (\n) trước các mục con để dễ đọc hơn
+    formattedText = formattedText.replace(/(?=Chất liệu:)|(?=Chi tiết sản phẩm:)|(?=Lưu ý giặt \/ ủi:)|(?=Giặt:)|(?=Ủi:)/g, '\n');
+
+    return formattedText.trim();
+};
+    
     return (
         <div className={styles.detailPage}>
             <div className={styles.wrapper}>
@@ -124,7 +141,7 @@ export default function ProductDetail() {
                     <div className={styles.imageSection}>
                         <div className={styles.mainImage}>
                             <img
-                                src={product.product_images?.[0]?.url || product.primary_image?.url}
+                                src={product.product_images?.[selectedImageIndex]?.url || product.product_images?.[0]?.url || product.primary_image?.url}
                                 alt={product.name}
                                 className={styles.productImage}
                             />
@@ -145,7 +162,8 @@ export default function ProductDetail() {
                                         key={idx}
                                         src={img.thumbnail_url || img.url}
                                         alt={`Product ${idx + 1}`}
-                                        className={styles.thumbnail}
+                                        className={`${styles.thumbnail} ${selectedImageIndex === idx ? styles.selected : ''}`}
+                                        onClick={() => setSelectedImageIndex(idx)}
                                     />
                                 ))}
                             </div>
@@ -263,7 +281,7 @@ export default function ProductDetail() {
                     <div className={styles.descriptionSection}>
                         <h2>Product Details</h2>
                         <div className={styles.descriptionContent}>
-                            {product.description}
+                            {formatDescription(product.description)}
                         </div>
 
                         <div className={styles.infoCard}>
