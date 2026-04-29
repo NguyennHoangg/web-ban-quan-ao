@@ -6,6 +6,7 @@ import sampleImage4 from '../../assets/images/sample4.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ProductCard from '../../components/productCard/ProductCard';
+import ProductGridSkeleton from '../../components/skeleton/ProductGridSkeleton';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
@@ -62,7 +63,7 @@ export default function HomePage() {
 
                     <div className={styles.newThisWeekGrid}>
                         {loading ? (
-                            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>Đang tải sản phẩm...</p>
+                            <ProductGridSkeleton count={4} variant="grid-4" />
                         ) : error ? (
                             <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'red' }}>Lỗi: {error}</p>
                         ) : (
@@ -88,7 +89,7 @@ export default function HomePage() {
 
                     <div className={styles.newThisWeekGrid}>
                         {loading ? (
-                            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>Đang tải sản phẩm...</p>
+                            <ProductGridSkeleton count={4} variant="grid-4" />
                         ) : error ? (
                             <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'red' }}>Lỗi: {error}</p>
                         ) : (
