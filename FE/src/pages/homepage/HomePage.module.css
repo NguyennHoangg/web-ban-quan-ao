@@ -135,7 +135,8 @@ button:hover{
 }
 .newThisWeekGrid{
     padding: 24px 0;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
 }
 

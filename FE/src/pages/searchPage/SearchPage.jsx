@@ -63,13 +63,14 @@ export default function SearchPage() {
         });
     }, [searchQuery, selectedCategories, selectedColors, selectedShapes, priceRange.min, priceRange.max, minRating, isSaleOnly, sort, fetchProductsList]);
 
-    // Fetch details khi cần lọc by color/size
+    // Fetch details ngay khi filter color/size thay đổi (trước khi component render)
     useEffect(() => {
         const needVariantFilters = selectedColors.length > 0 || selectedShapes.length > 0;
         if (!needVariantFilters || products.length === 0) return;
 
+        // Trigger fetch details immediately khi filter thay đổi
         fetchDetailsForFiltering(products);
-    }, [products, selectedColors, selectedShapes, fetchDetailsForFiltering]);
+    }, [selectedColors, selectedShapes, products, fetchDetailsForFiltering]);
 
     const clearAll = useCallback(() => {
         setSearchInput('');
@@ -200,35 +201,41 @@ export default function SearchPage() {
                         )}
                     </div>
 
-                    {(loading || loadingDetails) && <ProductGridSkeleton />}
-
-                    {!loading && !loadingDetails && filteredProducts.length === 0 && (
-                        <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-8 text-center shadow-sm">
-                            <h3 className="text-lg font-semibold text-gray-900">Không tìm thấy sản phẩm phù hợp</h3>
-                            <p className="mt-2 text-sm text-gray-500">Thử thay đổi bộ lọc hoặc xóa tất cả để xem nhiều sản phẩm hơn.</p>
-                            <button type="button" onClick={clearAll} className="mt-4 inline-flex rounded-lg bg-gray-900 text-white px-4 py-2 text-sm font-medium">Clear All Filters</button>
-                        </div>
+                    {/* Đồng bộ loading state: hiển thị Skeleton khi cả loading và loadingDetails đều false */}
+                    {(loading || loadingDetails) && (
+                        <ProductGridSkeleton />
                     )}
 
-                    {!loading && !loadingDetails && filteredProducts.length > 0 && (
-                        <div className="flex-1">
-                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2 md:gap-6">
-                                {filteredProducts.slice(0, displayCount).map((product) => (
-                                    <ProductCard key={product.id} product={product} />
-                                ))}
-                            </div>
-                            {displayCount < filteredProducts.length && (
-                                <div className="flex justify-center mt-8">
-                                    <button
-                                        type="button"
-                                        onClick={handleLoadMore}
-                                        className={styles.loadMoreButton}
-                                    >
-                                        Xem thêm
-                                    </button>
+                    {/* Chỉ hiển thị kết quả khi xong cả 2 quá trình load */}
+                    {!loading && !loadingDetails && (
+                        <>
+                            {filteredProducts.length === 0 ? (
+                                <div className="rounded-2xl border border-dashed border-gray-300 bg-white p-8 text-center shadow-sm">
+                                    <h3 className="text-lg font-semibold text-gray-900">Không tìm thấy sản phẩm phù hợp</h3>
+                                    <p className="mt-2 text-sm text-gray-500">Thử thay đổi bộ lọc hoặc xóa tất cả để xem nhiều sản phẩm hơn.</p>
+                                    <button type="button" onClick={clearAll} className="mt-4 inline-flex rounded-lg bg-gray-900 text-white px-4 py-2 text-sm font-medium">Clear All Filters</button>
+                                </div>
+                            ) : (
+                                <div className="flex-1">
+                                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-2 md:gap-6">
+                                        {filteredProducts.slice(0, displayCount).map((product) => (
+                                            <ProductCard key={product.id} product={product} />
+                                        ))}
+                                    </div>
+                                    {displayCount < filteredProducts.length && (
+                                        <div className="flex justify-center mt-8">
+                                            <button
+                                                type="button"
+                                                onClick={handleLoadMore}
+                                                className={styles.loadMoreButton}
+                                            >
+                                                Xem thêm
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             )}
-                        </div>
+                        </>
                     )}
                 </section>
             </div>

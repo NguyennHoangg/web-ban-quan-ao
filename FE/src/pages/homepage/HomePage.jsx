@@ -63,7 +63,7 @@ export default function HomePage() {
 
                     <div className={styles.newThisWeekGrid}>
                         {loading ? (
-                            <ProductGridSkeleton count={4} />
+                            <ProductGridSkeleton count={4} variant="grid-4" />
                         ) : error ? (
                             <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'red' }}>Lỗi: {error}</p>
                         ) : (
@@ -89,7 +89,7 @@ export default function HomePage() {
 
                     <div className={styles.newThisWeekGrid}>
                         {loading ? (
-                            <ProductGridSkeleton count={4} />
+                            <ProductGridSkeleton count={4} variant="grid-4" />
                         ) : error ? (
                             <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'red' }}>Lỗi: {error}</p>
                         ) : (
