@@ -11,6 +11,7 @@ const ProductController = require('../controller/product.controller');
  * @queryParam {String} cursor - Giá trị của trường sắp xếp của sản phẩm cuối cùng trên trang trước để phân trang tiếp theo (tùy chọn)
  */
 router.get('/list', ProductController.getManyForList);
+router.get('/filters', ProductController.getSearchFilters);
 router.get('/:slug', ProductController.getDetailsBySlug);
 router.delete('/:id', ProductController.deleteProduct);
 
