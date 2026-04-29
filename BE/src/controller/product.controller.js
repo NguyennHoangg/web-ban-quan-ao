@@ -1,11 +1,45 @@
-const { findManyForList, findProductDetailsBySlug, deleteProduct } = require("../services/product.service");
+const {
+  findManyForList,
+  findProductDetailsBySlug,
+  deleteProduct,
+  getFilterMetadata,
+} = require("../services/product.service");
+
+const parseListQuery = (value) => {
+  if (!value) return [];
+  if (Array.isArray(value)) {
+    return value
+      .flatMap((item) => String(item).split(","))
+      .map((item) => item.trim().toLowerCase())
+      .filter(Boolean);
+  }
+  return String(value)
+    .split(",")
+    .map((item) => item.trim().toLowerCase())
+    .filter(Boolean);
+};
 
 const ProductController = {
     async getManyForList(req, res, next) {
         try {
-            const { category_id, sort, limit, cursor, min_price, max_price, inStock, rating } = req.query;
+            const {
+              category_id,
+              category_ids,
+              sort,
+              limit,
+              cursor,
+              min_price,
+              max_price,
+              inStock,
+              rating,
+              colors,
+              sizes,
+              is_sale,
+              q,
+            } = req.query;
             const products = await findManyForList({
                 category_id,
+                category_ids: parseListQuery(category_ids),
                 sort,
                 limit: parseInt(limit) || 10,
                 cursor: cursor ? JSON.parse(cursor) : undefined,
@@ -16,6 +50,10 @@ const ProductController = {
                     rating !== undefined && rating !== ""
                         ? parseFloat(rating)
                         : undefined,
+                colors: parseListQuery(colors),
+                sizes: parseListQuery(sizes),
+                is_sale: is_sale === "true",
+                q: q ? String(q).trim() : undefined,
             });
 
             return res.status(200).json({
@@ -25,6 +63,18 @@ const ProductController = {
         } catch (error) {
            next(error);
         }   
+    },
+
+    async getSearchFilters(req, res, next) {
+      try {
+        const metadata = await getFilterMetadata();
+        return res.status(200).json({
+          success: true,
+          data: metadata,
+        });
+      } catch (error) {
+        next(error);
+      }
     },
 
     /**

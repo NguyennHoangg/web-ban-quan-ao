@@ -279,7 +279,9 @@ export default function ProductDetail() {
                 {/* Product Description Section */}
                 {product.description && (
                     <div className={styles.descriptionSection}>
-                        <h2>Chi tiết sản phẩm</h2>
+                        <div className={styles.titleInfo}>
+                            Thông tin sản phẩm
+                        </div>
                         <div className={styles.descriptionContent}>
                             {formatDescription(product.description)}
                         </div>
