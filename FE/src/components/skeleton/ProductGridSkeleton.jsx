@@ -1,7 +1,7 @@
-export default function ProductGridSkeleton() {
+export default function ProductGridSkeleton({ count = 8 }) {
     return (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {Array.from({ length: 8 }).map((_, index) => (
+            {Array.from({ length: count }).map((_, index) => (
                 <div key={index} className="animate-pulse border rounded-xl overflow-hidden bg-white">
                     <div className="w-full aspect-[3/4] bg-gray-200" />
                     <div className="p-3">

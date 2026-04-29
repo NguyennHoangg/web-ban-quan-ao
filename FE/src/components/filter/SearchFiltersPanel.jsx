@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { formatLabel, formatPrice, stringToColor } from '../searchFilters.utils';
-
+import { formatLabel, formatPrice, stringToColor } from '../../utils/searchFilters.utils';
+import styles from './SearchFiltersPanel.module.css';
 export default function SearchFiltersPanel({
     isMobile = false,
     filtersMeta,
@@ -63,7 +63,7 @@ export default function SearchFiltersPanel({
     );
 
     return (
-        <aside className={`w-full flex flex-col gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm ${isMobile ? '' : 'sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto'} scrollbar-thin`}>
+        <aside className={`${styles.noScrollbar} w-full flex flex-col gap-4 bg-white p-4 rounded-2xl border border-gray-100 shadow-sm ${isMobile ? '' : 'sticky top-4 max-h-[calc(100vh-2rem)] overflow-y-auto'} scrollbar-thin`}>
             <div className="flex items-center justify-between pb-2 border-b border-gray-100">
                 <p className="text-sm font-semibold text-gray-900">Bộ lọc sản phẩm</p>
                 <button
