@@ -1,6 +1,7 @@
 const {
   findManyForList: findManyForListModel,
   findByIdDetailBySlug,
+  getFilterMetadata: getFilterMetadataModel,
   createProduct,
   deleteProduct: deleteProductFromDB,
   findByCategory,
@@ -11,6 +12,7 @@ const { createError, PRODUCT_ERRORS } = require("../constants/errors");
 
 async function findManyForList({
   category_id,
+  category_ids,
   sort = "newest",
   limit = 10,
   cursor,
@@ -18,10 +20,15 @@ async function findManyForList({
   max_price,
   inStock,
   rating,
+  colors,
+  sizes,
+  is_sale,
+  q,
 }) {
   try {
     const result = await findManyForListModel({
       category_id,
+      category_ids,
       sort,
       limit,
       cursor,
@@ -29,6 +36,10 @@ async function findManyForList({
       max_price,
       inStock,
       rating,
+      colors,
+      sizes,
+      is_sale,
+      q,
     });
 
     return result.map(({ sort_key, ...product }) => product);
@@ -36,6 +47,14 @@ async function findManyForList({
     throw error;
   }
 }
+
+const getFilterMetadata = async () => {
+  try {
+    return await getFilterMetadataModel();
+  } catch (error) {
+    throw error;
+  }
+};
 
 const findProductDetailsBySlug = async (slug) => {
   try {
@@ -82,6 +101,7 @@ const deleteProduct = async (id) => {
 module.exports = {
   findManyForList,
   findProductDetailsBySlug,
+  getFilterMetadata,
   createProduct,
   deleteProduct,
   findByCategory,

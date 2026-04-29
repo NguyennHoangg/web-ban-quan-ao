@@ -404,11 +404,12 @@
     font-family: Inter, Roboto, sans-serif;
 }
 
-.descriptionSection h2 {
+.descriptionSection .titleInfo {
     font-size: 28px;
-    font-weight: 800;
+    font-weight: 700;
     color: #111827;
     padding: 0;
+    font-family: Inter, Roboto, sans-serif;
 }
 
 .descriptionContent {

@@ -33,7 +33,8 @@ export default function Header() {
     const handleSearch = (e) => {
         e.preventDefault();
         if (searchTerm.trim()) {
-            navigate(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+            navigate(`/search?search=${encodeURIComponent(searchTerm.trim())}`);
+            setSearchTerm('');
         }
     };
 
