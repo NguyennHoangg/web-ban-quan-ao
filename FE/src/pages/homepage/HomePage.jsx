@@ -6,6 +6,7 @@ import sampleImage4 from '../../assets/images/sample4.webp';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ProductCard from '../../components/productCard/ProductCard';
+import ProductGridSkeleton from '../../components/skeleton/ProductGridSkeleton';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
@@ -41,7 +42,7 @@ export default function HomePage() {
                         </div>
                         <Link to="/products">
                         <div className={styles.leftBottom}>
-                            <button className={styles.shopNowButton}>Go To Shop <FontAwesomeIcon icon={faArrowRight} /></button>
+                            <button className={styles.shopNowButton}>Đi đến cửa hàng <FontAwesomeIcon icon={faArrowRight} /></button>
                             
                             </div>
                         </Link>
@@ -62,7 +63,7 @@ export default function HomePage() {
 
                     <div className={styles.newThisWeekGrid}>
                         {loading ? (
-                            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>Đang tải sản phẩm...</p>
+                            <ProductGridSkeleton count={4} variant="grid-4" />
                         ) : error ? (
                             <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'red' }}>Lỗi: {error}</p>
                         ) : (
@@ -72,7 +73,7 @@ export default function HomePage() {
                         )}
                     </div>
                     <div className={styles.viewAllLink}>
-                        <Link to="/products"><button  className={styles.shopNowButton}>View All  <FontAwesomeIcon icon={faArrowRight} /></button></Link>
+                        <Link to="/products"><button  className={styles.shopNowButton}>Xem tất cả  <FontAwesomeIcon icon={faArrowRight} /></button></Link>
                     </div>
                 </div>
 
@@ -88,7 +89,7 @@ export default function HomePage() {
 
                     <div className={styles.newThisWeekGrid}>
                         {loading ? (
-                            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>Đang tải sản phẩm...</p>
+                            <ProductGridSkeleton count={4} variant="grid-4" />
                         ) : error ? (
                             <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: 'red' }}>Lỗi: {error}</p>
                         ) : (
@@ -101,15 +102,15 @@ export default function HomePage() {
                         )}
                     </div>
                     <div className={styles.viewAllLink}>
-                        <Link to="/products"><button  className={styles.shopNowButton}>View All  <FontAwesomeIcon icon={faArrowRight} /></button></Link>
+                        <Link to="/products"><button  className={styles.shopNowButton}>Xem tất cả  <FontAwesomeIcon icon={faArrowRight} /></button></Link>
                     </div>
                 </div>
 
             </section>
             <section className={styles.ourApproachToFashionDesign} >
                 <div data-aos="fade-up">
-                    <div className={styles.ourApproachToFashionDesignHeading}>Our Approach to fashion design </div>
-                <div className={styles.ourApproachToFashionDesignContent}>At elegant vogue , we blend creativity with craftsmanship to create fashion that transcends trends and stands the test of time each design is meticulously crafted, ensuring the highest quelity exqulsite finish</div>
+                    <div className={styles.ourApproachToFashionDesignHeading}>Phương pháp tiếp cận của chúng tôi đối với thiết kế thời trang</div>
+                <div className={styles.ourApproachToFashionDesignContent}>Tại Elegant Vogue, chúng tôi kết hợp sự sáng tạo với tay nghề thủ công để tạo ra những sản phẩm thời trang vượt thời gian và trường tồn với mọi xu hướng. Mỗi thiết kế đều được chế tác tỉ mỉ, đảm bảo chất lượng cao nhất và hoàn thiện tinh tế.</div>
                 
                 </div>
                 <div className={styles.ourApproachToFashionDesignImages} data-aos="fade-up">

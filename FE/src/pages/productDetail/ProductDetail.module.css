@@ -86,6 +86,14 @@
     background: #f3f4f6;
 }
 
+.thumbnail:hover {
+    border: 2px solid #1f2937;
+}
+
+.thumbnail.selected {
+    border: 2px solid #1f2937;
+}
+
 
 
 /* ========== INFO SECTION ========== */
@@ -396,11 +404,12 @@
     font-family: Inter, Roboto, sans-serif;
 }
 
-.descriptionSection h2 {
+.descriptionSection .titleInfo {
     font-size: 28px;
-    font-weight: 800;
+    font-weight: 700;
     color: #111827;
     padding: 0;
+    font-family: Inter, Roboto, sans-serif;
 }
 
 .descriptionContent {
@@ -408,6 +417,7 @@
     color: #374151;
     line-height: 1.8;
     white-space: pre-wrap;
+    white-space: pre-line;
 }
 
 .infoCard {

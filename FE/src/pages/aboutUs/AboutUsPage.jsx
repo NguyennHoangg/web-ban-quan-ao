@@ -9,7 +9,7 @@ const storySections = [
         eyebrow: 'Since 2014',
         title: 'What We Do',
         description:
-            'KHK Fashion offers high-quality fashion collections that combine modern trends with everyday wearability. We focus on durable materials, flattering fits, and an easy shopping experience. Our mission is to help customers express their unique style with confidence and comfort.',
+            'KHK Fashion mang đến các bộ sưu tập thời trang chất lượng cao, kết hợp giữa xu hướng hiện đại và tính ứng dụng hằng ngày. Chúng tôi tập trung vào chất liệu bền đẹp, phom dáng vừa vặn và trải nghiệm mua sắm dễ dàng. Với sự đa dạng về sản phẩm, từ áo thun, quần jeans đến áo khoác và phụ kiện, KHK Fashion đáp ứng nhu cầu của những người trẻ năng động và yêu thời trang. Chúng tôi không chỉ bán quần áo mà còn tạo ra một cộng đồng thời trang nơi khách hàng có thể tìm thấy cảm hứng và thể hiện phong cách riêng của mình.',
         
         image: sampleImage4,
         reverse: false,
@@ -17,8 +17,7 @@ const storySections = [
     {
         eyebrow: '',
         title: 'When We Started',
-        description:
-            'From a small group of fashion enthusiasts, KHK Fashion has grown into a trusted brand among young customers. Each product is carefully selected to maintain the criteria of beauty, comfort, and durability over time. We are committed to providing a seamless shopping experience and continuously updating our collections to meet the evolving tastes of our customers.',
+        description:'Từ một nhóm nhỏ đam mê thời trang, KHK Fashion đã phát triển thành thương hiệu được khách hàng trẻ tin tưởng. Từng sản phẩm được chọn lọc kỹ lưỡng để giữ vững tiêu chí đẹp, thoải mái và bền vững theo thời gian. Chúng tôi luôn lắng nghe phản hồi của khách hàng để cải thiện và mang đến những trải nghiệm mua sắm tốt nhất. KHK Fashion không ngừng đổi mới và phát triển, hướng tới mục tiêu trở thành thương hiệu thời trang hàng đầu tại Việt Nam, nơi mọi người có thể tìm thấy phong cách riêng của mình một cách dễ dàng và tự tin.',
         image: sampleImage3,
         reverse: true,
     },
@@ -50,9 +49,9 @@ export default function AboutUsPage() {
                 <p className={styles.heroDescription}>
                     <TextType
                         texts={[
-                            'KHK Fashion is a team of fashion enthusiasts who believe that everyone deserves to look and feel great in their own unique way. We create a modern, friendly shopping experience and stay up-to-date with the latest trends.'
+                            'KHK Fashion là đội ngũ yêu thời trang và tin rằng mỗi người đều xứng đáng mặc đẹp theo cách riêng. Chúng tôi xây dựng một không gian mua sắm hiện đại, thân thiện và luôn cập nhật xu hướng mới nhất. Với sự đa dạng về sản phẩm và cam kết về chất lượng, KHK Fashion mong muốn trở thành điểm đến yêu thích của những người trẻ yêu thời trang tại Việt Nam.'
                         ]}
-                        typingSpeed={50}
+                        typingSpeed={20}
                         pauseDuration={2000}
                         showCursor={false}
                     />
@@ -72,7 +71,7 @@ export default function AboutUsPage() {
                             <p>
                                 <TextType
                                     texts={[item.description]}
-                                    typingSpeed={40}
+                                    typingSpeed={30}
                                     pauseDuration={2000}
                                     showCursor={false}
                                 />
@@ -88,13 +87,13 @@ export default function AboutUsPage() {
             </section>
 
             <section className={styles.teamSection} data-aos="fade-up">
-                <h2>Our Makers</h2>
+                <h2>Đội ngũ của chúng tôi</h2>
                 <p>
                     <TextType
                         texts={[
-                            "KHK's team brings together experienced professionals in design, operations, and brand development. We collaborate to create collections that cater to diverse lifestyles."
+                            "Đội ngũ KHK quy tụ những thành viên có kinh nghiệm trong thiết kế, vận hành và phát triển thương hiệu. Chúng tôi cùng nhau tạo nên những bộ sưu tập phù hợp với nhiều phong cách sống."
                         ]}
-                        typingSpeed={50}
+                        typingSpeed={30}
                         pauseDuration={2000}
                         showCursor={false}
                     />

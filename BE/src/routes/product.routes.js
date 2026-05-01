@@ -11,9 +11,29 @@ const ProductController = require('../controller/product.controller');
  * @queryParam {String} cursor - Giá trị của trường sắp xếp của sản phẩm cuối cùng trên trang trước để phân trang tiếp theo (tùy chọn)
  */
 router.get('/list', ProductController.getManyForList);
-router.get('/categories', ProductController.getCategoryList);
-router.get('/total-count', ProductController.getTotalCountForProducts);
+
+/**
+ * @route GET /api/products/filters
+ * @description Lấy dữ liệu cần thiết để hiển thị các bộ lọc tìm kiếm sản phẩm, bao gồm danh sách các danh mục sản phẩm đang hoạt động và phạm vi giá tối thiểu và tối đa của tất cả sản phẩm.
+ */
+router.get('/filters', ProductController.getSearchFilters);
+
+/**
+ * @route GET /api/products/:slug
+ * @description Lấy chi tiết sản phẩm theo slug
+ * @pathParam {String} slug - Slug của sản phẩm cần lấy chi tiết
+ * @returns {Object} Đối tượng JSON chứa thông tin thành công và chi tiết sản phẩm
+ * @throws Lỗi nếu không tìm thấy sản phẩm với slug đã cho hoặc có vấn đề trong quá trình truy vấn cơ sở dữ liệu
+ */
 router.get('/:slug', ProductController.getDetailsBySlug);
+
+/**
+ * @route DELETE /api/products/:id
+ * @description Xóa sản phẩm theo id
+ * @pathParam {String} id - Id của sản phẩm cần xóa
+ * @returns {Object} Đối tượng JSON chứa thông tin thành công và thông báo xóa sản phẩm
+ * @throws Lỗi nếu không tìm thấy sản phẩm với id đã cho hoặc có vấn đề trong quá trình truy vấn cơ sở dữ liệu
+ */
 router.delete('/:id', ProductController.deleteProduct);
 
 module.exports = router;

@@ -213,6 +213,7 @@ const PRODUCT_DETAIL_SQL = `
  */
 const findManyForList = async ({
   category_id,
+  category_ids,
   sort = "newest",
   limit = 10,
   cursor,
@@ -220,6 +221,10 @@ const findManyForList = async ({
   max_price,
   inStock,
   rating,
+  colors,
+  sizes,
+  is_sale,
+  q,
 }) => {
   try {
     const { col, dir, cursorCol } = SORT_MAP[sort] || SORT_MAP.newest;
@@ -232,6 +237,11 @@ const findManyForList = async ({
     if (category_id) {
       params.push(category_id);
       conditions.push(`p.category_id = $${params.length}`);
+    }
+
+    if (Array.isArray(category_ids) && category_ids.length > 0) {
+      params.push(category_ids);
+      conditions.push(`p.category_id = ANY($${params.length}::text[])`);
     }
 
     if (min_price !== undefined) {
@@ -255,6 +265,43 @@ const findManyForList = async ({
     if (rating !== undefined) {
       params.push(rating);
       conditions.push(`p.avg_rating >= $${params.length}`);
+    }
+
+    if (is_sale === true) {
+      conditions.push(`p.is_sale = TRUE`);
+    }
+
+    if (q) {
+      params.push(`%${q}%`);
+      conditions.push(
+        `(p.name ILIKE $${params.length} OR p.short_description ILIKE $${params.length} OR p.brand ILIKE $${params.length})`,
+      );
+    }
+
+    if (Array.isArray(colors) && colors.length > 0) {
+      params.push(colors);
+      conditions.push(`
+        EXISTS (
+          SELECT 1
+          FROM product_variants pv_color
+          WHERE pv_color.product_id = p.id
+            AND pv_color.is_active = TRUE
+            AND LOWER(pv_color.color) = ANY($${params.length}::text[])
+        )
+      `);
+    }
+
+    if (Array.isArray(sizes) && sizes.length > 0) {
+      params.push(sizes);
+      conditions.push(`
+        EXISTS (
+          SELECT 1
+          FROM product_variants pv_size
+          WHERE pv_size.product_id = p.id
+            AND pv_size.is_active = TRUE
+            AND LOWER(pv_size.size) = ANY($${params.length}::text[])
+        )
+      `);
     }
 
     const whereClause =
@@ -284,6 +331,70 @@ const findManyForList = async ({
     return rows;
   } catch (error) {
     console.error("Error in findManyForList:", error);
+    throw error;
+  }
+};
+
+const getFilterMetadata = async () => {
+  try {
+    const sql = `
+      SELECT
+        COALESCE(
+          (
+            SELECT jsonb_agg(jsonb_build_object('id', c.id, 'name', c.name, 'slug', c.slug) ORDER BY c.name)
+            FROM categories c
+            WHERE c.is_active = TRUE
+          ),
+          '[]'::jsonb
+        ) AS categories,
+        COALESCE(
+          (
+            SELECT jsonb_agg(DISTINCT LOWER(pv.color)) FILTER (WHERE pv.color IS NOT NULL AND pv.color <> '')
+            FROM product_variants pv
+            JOIN products p ON p.id = pv.product_id
+            WHERE pv.is_active = TRUE
+              AND p.status = 'active'
+          ),
+          '[]'::jsonb
+        ) AS colors,
+        COALESCE(
+          (
+            SELECT jsonb_agg(DISTINCT LOWER(pv.size)) FILTER (WHERE pv.size IS NOT NULL AND pv.size <> '')
+            FROM product_variants pv
+            JOIN products p ON p.id = pv.product_id
+            WHERE pv.is_active = TRUE
+              AND p.status = 'active'
+          ),
+          '[]'::jsonb
+        ) AS sizes,
+        (
+          SELECT MIN(COALESCE(v.price_min, p.base_price))
+          FROM products p
+          LEFT JOIN LATERAL (
+            SELECT MIN(COALESCE(pv.sale_price, pv.price)) AS price_min
+            FROM product_variants pv
+            WHERE pv.product_id = p.id
+              AND pv.is_active = TRUE
+          ) v ON TRUE
+          WHERE p.status = 'active'
+        ) AS min_price,
+        (
+          SELECT MAX(COALESCE(v.price_max, p.base_price))
+          FROM products p
+          LEFT JOIN LATERAL (
+            SELECT MAX(COALESCE(pv.sale_price, pv.price)) AS price_max
+            FROM product_variants pv
+            WHERE pv.product_id = p.id
+              AND pv.is_active = TRUE
+          ) v ON TRUE
+          WHERE p.status = 'active'
+        ) AS max_price;
+    `;
+
+    const { rows } = await query(sql);
+    return rows[0];
+  } catch (error) {
+    console.error("Error in getFilterMetadata:", error);
     throw error;
   }
 };
@@ -478,6 +589,7 @@ const getTotalCountForProducts = async (filters) => {
 module.exports = {
   findManyForList,
   findByIdDetailBySlug,
+  getFilterMetadata,
   createProduct,
   findByCategory,
   updateProduct,

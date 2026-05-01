@@ -57,7 +57,8 @@ header{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 304px;
+  width: auto;
+  gap: 20px;
   
 }
 .navLinks a {
