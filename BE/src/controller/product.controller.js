@@ -1,64 +1,77 @@
-const { findManyForList, findProductDetailsBySlug, deleteProduct } = require("../services/product.service");
+const {
+  findManyForList,
+  findProductDetailsBySlug,
+  deleteProduct,
+  getCategoryList,
+  getTotalCountForProducts,
+} = require("../services/product.service");
 
 const ProductController = {
-    async getManyForList(req, res, next) {
-        try {
-            const { category_id, sort, limit, cursor, min_price, max_price, inStock, rating } = req.query;
-            const products = await findManyForList({
-                category_id,
-                sort,
-                limit: parseInt(limit) || 10,
-                cursor: cursor ? JSON.parse(cursor) : undefined,
-                min_price: min_price !== undefined ? parseFloat(min_price) : undefined,
-                max_price: max_price !== undefined ? parseFloat(max_price) : undefined,
-                inStock: inStock === "true",
-                rating:
-                    rating !== undefined && rating !== ""
-                        ? parseFloat(rating)
-                        : undefined,
-            });
+  async getManyForList(req, res, next) {
+    try {
+      const {
+        category_id,
+        sort,
+        limit,
+        cursor,
+        min_price,
+        max_price,
+        inStock,
+        rating,
+      } = req.query;
+      const products = await findManyForList({
+        category_id,
+        sort,
+        limit: parseInt(limit) || 10,
+        cursor: cursor ? JSON.parse(cursor) : undefined,
+        min_price: min_price !== undefined ? parseFloat(min_price) : undefined,
+        max_price: max_price !== undefined ? parseFloat(max_price) : undefined,
+        inStock: inStock === "true",
+        rating:
+          rating !== undefined && rating !== ""
+            ? parseFloat(rating)
+            : undefined,
+      });
 
-            return res.status(200).json({
-                success: true,
-                data: { products },
-            });
-        } catch (error) {
-           next(error);
-        }   
-    },
+      return res.status(200).json({
+        success: true,
+        data: { products },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 
-    /**
-     * 
-     * @param {*} req 
-     * @param {*} res 
-     * @param {*} next 
-     * @returns 
-     */
-    async getDetailsBySlug(req, res, next) {
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns
+   */
+  async getDetailsBySlug(req, res, next) {
     try {
       const { slug } = req.params;
       const product = await findProductDetailsBySlug(slug);
-        if (!product) {
-         return res.status(404).json({
-            success: false,
-            message: "Không tìm thấy sản phẩm với slug đã cho",
-          });  
-        
+      if (!product) {
+        return res.status(404).json({
+          success: false,
+          message: "Không tìm thấy sản phẩm với slug đã cho",
+        });
       }
 
       return res.status(200).json({
         success: true,
         data: {
-          product
-        }
-    })
-
+          product,
+        },
+      });
     } catch (error) {
-        next(error);
+      next(error);
     }
-},
+  },
 
- async deleteProduct(req, res, next) {
+  async deleteProduct(req, res, next) {
     try {
       const { id } = req.params;
       const result = await deleteProduct(id);
@@ -69,8 +82,46 @@ const ProductController = {
     } catch (error) {
       next(error);
     }
-},
-}
+  },
 
+  /**
+   * Ham xử lý yêu cầu lấy danh sách danh mục sản phẩm
+   * @description Truy cập vào service để lấy danh sách các danh mục sản phẩm đang hoạt động, sau đó trả về kết quả dưới dạng JSON. Nếu có lỗi xảy ra trong quá trình xử lý, lỗi sẽ được chuyển đến middleware xử lý lỗi tiếp theo.
+   * @route GET /api/products/categories
+   * @returns {Object} Đối tượng JSON chứa thông tin thành công và dữ liệu danh mục sản phẩm
+   * @throws Lỗi nếu có vấn đề trong quá trình truy vấn cơ sở dữ liệu hoặc xử lý yêu cầu
+   */
+  async getCategoryList(req, res, next) {
+    try {
+      const categories = await getCategoryList();
+      return res.status(200).json({
+        success: true,
+        data: { categories },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+
+  /**
+   * Ham xử lý yêu cầu lấy tổng số lượng sản phẩm
+   * @description Truy cập vào service để lấy tổng số lượng sản phẩm, sau đó trả về kết quả dưới dạng JSON. Nếu có lỗi xảy ra trong quá trình xử lý, lỗi sẽ được chuyển đến middleware xử lý lỗi tiếp theo.
+   * @route GET /api/products/total-count
+   * @returns {Object} Đối tượng JSON chứa thông tin thành công và tổng số lượng sản phẩm
+   * @throws Lỗi nếu có vấn đề trong quá trình truy vấn cơ sở dữ liệu hoặc xử lý yêu cầu
+   */
+  async getTotalCountForProducts(req, res, next) {
+    try {
+      const { totalCount, pagination } = await getTotalCountForProducts();
+      return res.status(200).json({
+        success: true,
+        data: { totalCount, pagination },
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+};
 
 module.exports = ProductController;
