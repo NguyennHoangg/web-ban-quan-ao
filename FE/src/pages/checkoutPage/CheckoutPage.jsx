@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { clearCart } from '../../redux/cart/cartSlice';
 import styles from './CheckoutPage.module.css';
 
+const BASE_URL = 'https://web-ban-quan-ao-9s0d.onrender.com/api';
+
 const STEPS = ['INFORMATION', 'SHIPPING', 'PAYMENT'];
 
 const SHIPPING_METHODS = [
@@ -159,7 +161,7 @@ export default function CheckoutPage() {
                 })),
             };
 
-            const res = await fetch('/api/orders', {
+            const res = await fetch(`${BASE_URL}/orders`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
