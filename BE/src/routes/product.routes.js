@@ -13,6 +13,20 @@ const ProductController = require('../controller/product.controller');
 router.get('/list', ProductController.getManyForList);
 
 /**
+ * @route GET /api/products/categories
+ * @description Lấy danh sách tất cả danh mục sản phẩm
+ */
+router.get('/categories', ProductController.getCategoryList);
+
+/**
+ * @route GET /api/products/total-count
+ * @description Lấy tổng số lượng sản phẩm phù hợp với các tùy chọn lọc (category_id)
+ * @queryParam {String} category_id - Lọc sản phẩm theo danh mục (tùy chọn)
+ * @return {Object} Đối tượng JSON chứa thông tin thành công và tổng số lượng sản phẩm phù hợp với các tùy chọn lọc
+ * @throws Lỗi nếu có vấn đề trong quá trình truy vấn cơ sở dữ liệu
+ */
+router.get('/total-count', ProductController.getTotalCountForProducts);
+/**
  * @route GET /api/products/filters
  * @description Lấy dữ liệu cần thiết để hiển thị các bộ lọc tìm kiếm sản phẩm, bao gồm danh sách các danh mục sản phẩm đang hoạt động và phạm vi giá tối thiểu và tối đa của tất cả sản phẩm.
  */

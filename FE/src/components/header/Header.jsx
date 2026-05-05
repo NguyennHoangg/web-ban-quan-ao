@@ -4,12 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass, faCartShopping, faUser, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import { useAuth } from '../../context/AuthContext';
 
 export default function Header() {
     const location = useLocation();
     const navigate = useNavigate();
     const { user, logout } = useAuth();
+    const cartItems = useSelector((state) => state.cart.items);
+    const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
     const [searchTerm, setSearchTerm] = useState('');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
@@ -115,6 +118,9 @@ export default function Header() {
                     >
                         <Link to="/cart" className={styles.cartIcon}>
                             <FontAwesomeIcon icon={faCartShopping} />
+                            {cartCount > 0 && (
+                                <span className={styles.cartBadge}>{cartCount}</span>
+                            )}
                         </Link>
                         {isCartOpen && (
                             <div className={styles.cartPopup}>
@@ -122,17 +128,26 @@ export default function Header() {
                                     Giỏ hàng
                                 </div>
                                 <div className={styles.cartItems}>
-                                    {/* Cart items will go here */}
-                                    <div className={styles.emptyCart}>
-                                        Giỏ hàng trống
-                                    </div>
+                                    {cartItems.length === 0 ? (
+                                        <div className={styles.emptyCart}>Giỏ hàng trống</div>
+                                    ) : (
+                                        cartItems.map(item => (
+                                            <div key={item.id} className={styles.cartPopupItem}>
+                                                <img src={item.image} alt={item.name} className={styles.cartPopupImg} />
+                                                <div className={styles.cartPopupInfo}>
+                                                    <p className={styles.cartPopupName}>{item.name}</p>
+                                                    <p className={styles.cartPopupPrice}>{item.quantity} x {parseFloat(item.price).toLocaleString('vi-VN')}đ</p>
+                                                </div>
+                                            </div>
+                                        ))
+                                    )}
                                 </div>
                                 <div className={styles.cartFooter}>
                                     <div className={styles.cartTotal}>
                                         <span>Tổng tiền:</span>
-                                        <span className={styles.totalAmount}>0đ</span>
+                                        <span className={styles.totalAmount}>{cartItems.reduce((s, i) => s + i.price * i.quantity, 0).toLocaleString('vi-VN')}đ</span>
                                     </div>
-                                    <button className={styles.checkoutButton}>
+                                    <button className={styles.checkoutButton} onClick={() => navigate('/cart')}>
                                         Tiến hành thanh toán
                                     </button>
                                 </div>
